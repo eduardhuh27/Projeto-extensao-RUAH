@@ -22,9 +22,18 @@
 }
 
 body {
-    background-color: var(--cor-fundo-tela);
+    background: radial-gradient(circle at right, rgba(73, 48, 4, 0.425) 0%, var(--cor-fundo-tela) 100%);
+    background-attachment: fixed;
     color: var(--cor-texto-principal);
     min-height: 100vh;
+    
+    /* ALTERAÇÃO: Adicionado Flexbox no body para organizar o fluxo vertical
+       e um padding superior perfeito para o menu ilha flutuante */
+    display: flex;
+    flex-direction: column;
+    
+    box-sizing: border-box;
+    padding: 8rem 1rem 3rem 1rem;
 }
 
 /* =========================================
@@ -58,13 +67,21 @@ body {
    ========================================= */
 #titulo {
     text-align: center;
-    /* Aumentamos para 9.5rem para compensar os 20px que o menu desceu */
-    margin: 9.5rem 0 1.5rem 0;
+    /* ALTERAÇÃO: Removemos os 9.5rem. Agora o título usa apenas o 
+       espaço necessário para respirar em relação ao menu e ao grid */
+    margin: 3.5rem 0 1rem 0;
 }
 
-#logo i {
-    font-size: 1.5rem; /* Ajustado para o ícone alinhar perfeitamente */
-    display: block;
+#perfil {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.user-icon {
+    width: 28px;
+    height: 28px;
+    color: var(--cor-texto-principal);
 }
 
 #botoes {
@@ -105,9 +122,10 @@ body {
 
 
 #titulo h1 {
-    font-size: 2.5rem;
+    font-size: 2.2rem; /* Ajustado sutilmente para harmonizar o espaço */
     color: var(--cor-texto-principal);
     font-weight: 700;
+    margin-bottom: 1.5rem; /* Reduzido para aproximar o título do conteúdo */
 }
 
 /* =========================================
@@ -115,11 +133,14 @@ body {
    ========================================= */
 #conteudo {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Duas colunas iguais */
-    gap: 3rem;                     
+    grid-template-columns: 1fr 1fr;
+    /* ALTERAÇÃO: Reduzido de 3rem para 1.5rem para aproximar os elementos 
+       e economizar a preciosa altura da tela */
+    gap: 1.5rem;                     
     max-width: 1200px;
     margin: 0 auto;
-    padding: 2rem;
+    /* ALTERAÇÃO: Zerado o padding do topo (já controlado pelo título) */
+    padding: 0 2rem 2rem 2rem;
 }
 
 /* Lado Esquerdo: Imagem expandida */
@@ -139,13 +160,16 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover; 
-    min-height: 400px;  
+    /* ALTERAÇÃO: Reduzido de 400px para 320px. Isso impede que a imagem 
+       force telas de laptops e monitores médios a scrollar */
+    min-height: 320px;  
 }
 
 /* Lado Direito: Caixas de Texto */
 #caixa1, #caixa2 {
     background-color: var(--cor-fundo-card);
-    padding: 2rem;
+    /* ALTERAÇÃO: Reduzido de 2rem para 1.5rem para manter as caixas de texto compactas */
+    padding: 1.5rem;
     border-radius: 8px;
     border: 1px solid var(--cor-borda);
     display: flex;
