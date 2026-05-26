@@ -1,0 +1,357 @@
+/* Reset básico de margens e fontes */
+
+:root {
+    --cor-fundo-tela: #121212;        /* Quase preto para o fundo geral */
+    --cor-fundo-form: #1e1e1e;        /* Cinza chumbo para o formulário */
+    --cor-primaria: #f59e0b;          /* Laranja vibrante do botão */
+    --cor-primaria-hover: #e28e08;    /* Laranja mais escuro para o hover */
+    --cor-texto-principal: #ffffff;   /* Branco puro para títulos */
+    --cor-texto-secundario: #b0b0b0;  /* Cinza claro para subtítulos e links */
+    --cor-borda: #444444;             /* Cinza médio para as bordas dos inputs */
+    --cor-icone: #cccccc;             /* Cinza claro para os ícones */
+    --cor-overlay: rgba(0, 0, 0, 0.5); /* Película escura sobre a imagem */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+   background-color: var(--cor-fundo-tela);
+    color: var(--cor-texto-principal);
+    min-height: 100vh;
+}
+
+/* Container que divide a tela ao meio */
+.container {
+    display: flex;
+    flex-direction: row; /* Inverte a ordem: form na esquerda, imagem na direita */
+    min-height: 100vh;
+    width: 100%;
+}
+
+/* =========================================
+   ÁREA DA IMAGEM (Lado Direito)
+   ========================================= */
+#img {
+    flex: 1;
+    position: relative; /* Necessário para a imagem ficar absoluta dentro dele */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* Evita que a imagem passe do limite da div */
+    padding: 0; /* Remove o padding para a imagem colar nas bordas */
+}
+
+/* O card agora serve apenas para agrupar o texto acima da imagem */
+.card-imagem {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    text-align: center;
+    position: relative;
+    z-index: 1; /* Mantém o texto na frente da imagem */
+}
+
+/* A imagem passa a se comportar como um background */
+.card-imagem img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Faz a imagem preencher todo o espaço sem achatar */
+    z-index: -2;
+}
+
+/* Película escura (overlay) opcional para garantir a leitura do texto */
+.card-imagem::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Escurece a imagem em 50% */
+    z-index: -1;
+}
+
+#img .titulo {
+    font-size: 2.2rem;
+    font-weight: bold;
+    color: var(--cor-texto-principal); /* Texto branco para dar contraste */
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.5); /* Sombra para melhorar a leitura */
+}
+
+#img .subtitulo p {
+    font-size: 1.1rem;
+    color: var(--cor-texto-secundario);
+    line-height: 1.5;
+    max-width: 450px;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+}
+
+/* =========================================
+   LADO DIREITO (Formulário)
+   ========================================= */
+#form {
+    flex: 1;
+    background-color: var(--cor-fundo-form);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+}
+
+#form .titulo h1 {
+    font-size: 2rem;
+    color: #ffffff;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+#form #subtitulo p {
+    font-size: 0.85rem;
+    color: #e0e0e0;
+    text-align: center;
+    max-width: 400px;
+    margin-bottom: 3rem;
+    line-height: 1.4;
+}
+
+/* Configuração dos Inputs */
+#email, #senha {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+    margin-bottom: 1.5rem;
+}
+
+/* Ícones ao lado dos inputs */
+#email > i, #senha > i {
+    font-size: 1.8rem;
+    color: var(--cor-icone);
+    margin-right: 15px;
+    width: 30px;
+    text-align: center;
+}
+
+/* Oculta as labels para manter idêntico ao design limpo do protótipo */
+#email label, #senha label {
+    display: none;
+}
+
+#email input, #senha input {
+    flex: 1;
+    padding: 12px;
+    color: var(--cor-texto-principal);
+    border: 1px solid var(--cor-borda);
+    outline: none;
+    font-size: 1rem;
+    background-color: transparent;
+}
+
+#email input:focus, #senha input:focus {
+    border-color: var(--cor-primaria);
+    /*fazer a borda do olhinho também ficar laranja quando o input estiver focado*/
+
+}
+
+
+/* Botão do olhinho dentro da senha */
+#senha button {
+    border: 1px solid var(--cor-borda);
+    color: var(--cor-icone);
+    padding: 0 15px;
+    /* Removemos o height fixo e adicionamos o align-self abaixo */
+    align-self: stretch; 
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+}
+
+#senha button:focus {
+    border-color: #f59e0b;
+}
+
+
+
+/* Remove borda direita do input de senha para juntar com o botão do olho */
+#senha input {
+    border-right: none;
+}
+
+/* Link Esquecer Senha */
+#esquecerSenha {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+#esquecerSenha a {
+    color: var(--cor-primaria);
+    text-decoration: none;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+}
+
+#esquecerSenha a:hover {
+    color: var(--cor-primaria-hover);
+}
+
+/* Botão Logar */
+#logar {
+    width: 100%;
+    max-width: 400px;
+}
+
+#logar button {
+    width: 100%;
+    padding: 15px;
+    background-color: var(--cor-primaria);
+    color: var(--cor-texto-principal);
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: background-color 0.3s;
+}
+
+#logar button:hover {
+    background-color: var(--cor-primaria-hover); /* Leve escurecimento no hover */
+}
+
+/* =========================================
+   RESPONSIVIDADE (Telas de Celular/Tablet)
+   ========================================= */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column; /* Empilha os blocos um em cima do outro */
+    }
+
+    #img {
+        padding: 1rem;
+    }
+
+    .card-imagem {
+        height: auto;
+        padding: 1.5rem;
+    }
+
+    #form {
+        padding: 2rem 1rem;
+    }
+}
+
+/* =========================================
+   POPUP (GERAL)
+   ========================================= */
+.popup-overlay {
+    display: none; /* Oculto por padrão */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.popup-content {
+    background-color: #ffffff;
+    padding: 2.5rem;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 400px;
+    position: relative;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    text-align: center;
+}
+
+.popup-content h2 {
+    margin-bottom: 0.5rem;
+    color: #333;
+    font-size: 1.5rem;
+}
+
+.popup-content p {
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 1.5rem;
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 1.8rem;
+    color: #999;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.close-btn:hover {
+    color: #333;
+}
+
+.input-group {
+    text-align: left;
+    margin-bottom: 1.2rem;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: #333;
+    font-weight: bold;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    outline: none;
+}
+
+.input-group input:focus {
+    border-color: #2b95d6;
+}
+
+/* Botão de Ação do Popup */
+.btn-popup {
+    width: 100%;
+    padding: 12px;
+    background-color: #2b95d6;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background-color 0.3s;
+}
+
+.btn-popup:hover {
+    background-color: #1a7bbd;
+}
