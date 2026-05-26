@@ -1,0 +1,272 @@
+/*
+   RESET E CONFIGURAÇÕES GERAIS
+ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+:root {
+    --cor-fundo-tela: #121212;        
+    --cor-fundo-form: #1e1e1e;        
+    --cor-primaria: #f59e0b;          
+    --cor-primaria-hover: #e28e08;    
+    --cor-texto-principal: #ffffff;   
+    --cor-texto-secundario: #b0b0b0;  
+    --cor-borda: #444444;             
+    --cor-icone: #cccccc;             
+    --cor-overlay: rgba(0, 0, 0, 0.5); 
+}
+
+body {
+
+   /* Gradiente linear do cinza escuro para a cor de fundo padrão */
+    background: radial-gradient(circle at right, rgba(73, 48, 4, 0.425) 0%, var(--cor-fundo-tela) 100%);
+    background-attachment: fixed;
+   
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+    padding: 40px;
+}
+
+/* 
+   BARRA DE NAVEGAÇÃO (HEADER)
+*/
+.navbar {
+    width: 100%;
+    max-width: 1200px;
+    background-color: var(--cor-fundo-form);
+    border: 1px solid var(--cor-borda);
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-weight: bold;
+    font-size: 14px;
+    color: var(--cor-texto-principal);
+}
+
+.user-icon {
+    width: 40px;
+    height: 40px;
+    color: var(--cor-icone);
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+}
+
+.text-button {
+    
+    color: var(--cor-primaria);
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/*
+   BOTÕES PRINCIPAIS 
+*/
+.primary-button {
+    background-color: var( --cor-primaria);
+    color: #080808;
+    border: none;
+    border-radius: 4px; 
+    padding: 12px 30px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: background-color 0.3s;
+}
+
+.primary-button:hover {
+    background-color: var(--cor-primaria-hover);
+}
+
+/* 
+   MENU DROPDOWN (SUSPENSO)
+*/
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropbtn {
+    display: flex;
+    cursor: pointer;
+}
+
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%; 
+    left: 0;
+    background-color: var(--cor-fundo-form);
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.5);
+    border: 1px solid var(--cor-borda);
+    border-radius: 4px;
+    z-index: 10; 
+    overflow: hidden; 
+}
+
+.dropdown-content a {
+    color: var(--cor-texto-secundario);
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+
+.dropdown-content a:hover {
+    background-color: var(--cor-borda);
+    color: var(--cor-primaria);
+}
+
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* 
+   CONTEÚDO PRINCIPAL E CARTÕES
+*/
+.main-content {
+    display: flex;
+    gap: 60px;
+    width: 100%;
+    max-width: 1000px;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.card {
+    background-color: var(--cor-fundo-form);
+    border-radius: 8px; 
+    padding: 3rem; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card-left {
+    width: 400px;
+}
+
+.card-right {
+    width: 450px;
+}
+
+.card h2 {
+    margin-bottom: 2rem;
+    color: var(--cor-texto-principal);
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+/*
+   INPUTS E FORMULÁRIOS
+*/
+.form-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 1.5rem;
+    width: 100%;
+}
+
+.form-group label {
+    font-size: 0.9rem;
+    color: var(--cor-texto-secundario);
+    font-weight: bold;
+    min-width: 50px;
+}
+
+.form-group input {
+    flex: 1;
+    padding: 10px 12px;
+    color: var(--cor-texto-principal);
+    border: 1px solid var(--cor-borda);
+    background-color: var(--cor-fundo-form);
+    border-radius: 4px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+    border-color: var(--cor-primaria);
+}
+
+
+.card .primary-button {
+    margin-top: 1.5rem;
+    border-radius: 15px;
+    width: 55%;
+    padding: 15px;
+}
+
+/* 
+   RESPONSIVIDADE (Telas de Celular/Tablet)
+*/
+@media (max-width: 768px) {
+    body {
+        padding: 20px;
+    }
+
+    .main-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card-left, .card-right {
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .navbar {
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .nav-left {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .nav-links {
+        gap: 20px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
