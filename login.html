@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tela login</title>
+    <script src="https://kit.fontawesome.com/7308a57cc9.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        function abrirPopupSenha() {
+            document.getElementById('popupAlterarSenha').style.display = 'flex';
+}
+
+        function fecharPopupSenha() {
+            document.getElementById('popupAlterarSenha').style.display = 'none';
+}
+    </script>
+</head>
+<body>
+    <main class="container">
+        <div id="img">
+            <div class="card-imagem">
+                <img src="imagens/Gemini_Generated_Image_whars9whars9whar.png" alt="imgPrincipal">
+                <div class="titulo">Bem-vindo ao Sistema RUAH</div>
+                <div class="subtitulo">
+                    <p>Uma plataforma dedicada a organizar e acompanhar as informações de jovens, registrar eventos e fortalecer a comunidade</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="form">
+            <div class="titulo">
+                <h1>Entrar no Sistema</h1>
+            </div>
+            <div id="subtitulo">
+                <p>Por favor insira suas credenciais abaixo para acessar o painel de controle e gerenciar membros e eventos</p>
+            </div>
+            
+            <div id="email">
+                <i class="fa-solid fa-user" style="color: white;" ></i>
+                <label for="iemail">Email:</label>
+                <input type="email" name="email" id="iemail">
+            </div>
+            
+            <div id="senha">
+                <i class="fa-solid fa-lock" style="color: white;"></i> <label for="isenha">Senha:</label>
+                <input type="password" name="senha" id="isenha" required minlength="8" maxlength="12">
+                <button><i class="fa-solid fa-eye-slash"></i></button> </div>
+            
+            <div id="esquecerSenha">
+                <a href="#" onclick="abrirPopupSenha(); return false;">ESQUECI MINHA SENHA</a> </div>
+            
+            <div id="logar">
+                <button>Logar</button> </div>
+        </div>
+    </main>
+    <div id="popupAlterarSenha" class="popup-overlay">
+    <div class="popup-content">
+        <span class="close-btn" onclick="fecharPopupSenha()">&times;</span>
+        
+        <h2>Redefinir Senha</h2>
+        <p>Informe seu email e crie uma nova senha para sua conta.</p>
+        
+        <form id="formAlterarSenha">
+            <div class="input-group">
+                <label for="emailRecuperacao">Email cadastrado:</label>
+                <input type="email" id="emailRecuperacao" required>
+            </div>
+            
+            <div class="input-group">
+                <label for="novaSenha">Nova Senha:</label>
+                <input type="password" id="novaSenha" required minlength="8">
+            </div>
+
+            <div class="input-group">
+                <label for="confirmarSenha">Confirmar Nova Senha:</label>
+                <input type="password" id="confirmarSenha" required minlength="8">
+            </div>
+            
+            <button type="submit" class="btn-popup">ALTERAR SENHA</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

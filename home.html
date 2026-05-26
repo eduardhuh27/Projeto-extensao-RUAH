@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Sistema RUAH</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <script src="https://kit.fontawesome.com/7308a57cc9.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+    <div id="menu">
+        <div id="logo">
+             <i class="fa-solid fa-user" style="color: white;"></i>
+        </div>
+        <div id="botoes">
+            <a href="home.html">home</a>
+            <a href="listagem.html">Lista dos jovens</a>
+            <a href="cadastro.html">Cadastrar</a>
+        </div>
+        <div id="sair">
+            <button id="btnSair">deslogar</button>
+        </div>
+    </div>
+
+    <div id="titulo">
+        <h1>Bem-Vindo ao RUAH</h1>
+    </div>
+
+    <div id="conteudo">
+        <div id="img">
+            <img src="imagens/Gemini_Generated_Image_m161cqm161cqm161.png" alt="foto">
+        </div>
+        <div id="caixa1">
+            <h1>Título 1</h1>
+            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nemo, asperiores eum doloribus inventore odio ex repellat voluptatibus nesciunt? Facilis, voluptate voluptatum. Assumenda voluptates autem sapiente quos quam a nobis repellendus.</p>
+        </div>
+        <div id="caixa2">
+            <h1>Título 2</h1>
+            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nemo, asperiores eum doloribus inventore odio ex repellat voluptatibus nesciunt? Facilis, voluptate voluptatum. Assumenda voluptates autem sapiente quos quam a nobis repellendus.</p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('btnSair').addEventListener('click', function() {
+            localStorage.clear(); 
+            sessionStorage.clear(); 
+            window.location.href = 'login.html';
+        });
+    </script>
+</body>
+</html>

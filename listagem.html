@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <script src="https://kit.fontawesome.com/7308a57cc9.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div id="menu">
+        <div id="logo">
+             <i class="fa-solid fa-user" style="color: white;" ></i>
+        </div>
+        <div id="botoes">
+            <a href="home.html">home</a>
+            <a href="listagem.html">Lista dos jovens</a>
+            
+            <a href="cadastro.html">Cadastrar</a>
+        </div>
+        <div id="sair">
+            <button id="btnSair">deslogar</button>
+        </div>
+    </div>
+    <div id="titulo">
+        <h1>Lista dos jovens</h1>
+    </div>
+    <div id="conteudo">
+        <div id="img">
+            <img src="imagens/Gemini_Generated_Image_m161cqm161cqm161.png" alt="foto">
+        </div>
+        <div id="listaJovens">
+            <ul id="lista">
+                <li>futura lista</li>
+            </ul>
+        </div>
+    </div>
+    <script>
+        // Aguarda o botão ser clicado
+document.getElementById('btnSair').addEventListener('click', function() {
+    // Limpa os dados de login salvos no navegador (se houver)
+    localStorage.clear(); 
+    sessionStorage.clear(); 
+
+    // Redireciona para a página de login
+    window.location.href = 'login.html';
+});
+    </script>
+</body>
+</html>

@@ -1,0 +1,254 @@
+/* =========================================
+   VARIÁVEIS DE CORES (Mantendo a identidade)
+   ========================================= */
+:root {
+    --cor-fundo-tela: #121212;        /* Quase preto */
+    --cor-fundo-card: #1e1e1e;        /* Cinza chumbo */
+    --cor-primaria: #f59e0b;          /* Laranja vibrante */
+    --cor-primaria-hover: #e28e08;    /* Laranja mais escuro */
+    --cor-texto-principal: #ffffff;   /* Branco puro */
+    --cor-texto-secundario: #b0b0b0;  /* Cinza claro */
+    --cor-borda: #444444;             /* Cinza médio */
+}
+
+/* =========================================
+   RESET E CONFIGURAÇÕES GERAIS
+   ========================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background-color: var(--cor-fundo-tela);
+    color: var(--cor-texto-principal);
+    min-height: 100vh;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+    /* ALTERAÇÃO: Aumentamos o padding do topo para criar o espaço 
+       perfeito para o seu menu fixo (ilha) sem precisar de margens malucas */
+    padding: 8rem 1rem 3rem 1rem; 
+}
+
+/* =========================================
+   BARRA DE NAVEGAÇÃO (Menu Estilo Ilha Flutuante)
+   ========================================= */
+#menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--cor-fundo-card);
+    padding: 1rem 3rem;
+    
+    /* MODIFICAÇÕES PARA O EFEITO DE ILHA */
+    border: 1px solid var(--cor-borda);     /* Borda em toda a volta do menu */
+    border-radius: 8px;                     /* Cantos arredondados para parecer um card */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5); /* Sombra mais marcante para dar profundidade */
+    
+    /* POSICIONAMENTO FIXO CENTRALIZADO COM ESPAÇAMENTO */
+    position: fixed;
+    top: 20px;                              /* Distância do topo da tela */
+    left: 0;
+    right: 0;
+    width: calc(100% - 40px);               /* Ocupa a largura total menos os espaços das laterais */
+    max-width: 1200px;                      /* Não passa de 1200px de largura */
+    margin: 0 auto;                         /* Centraliza o menu na tela horizontalmente */
+    z-index: 1000;                          /* Continua passando por cima do conteúdo */
+}
+
+/* =========================================
+   TÍTULO PRINCIPAL (Ajuste de margem)
+   ========================================= */
+#titulo {
+    text-align: center;
+    /* ALTERAÇÃO: Removido o margin-top de 9.5rem que estava esticando o card */
+    margin: 0 0 1.5rem 0; 
+}
+
+#logo i {
+    font-size: 1.5rem; /* Ajustado para o ícone alinhar perfeitamente */
+    display: block;
+}
+
+#botoes {
+    display: flex;
+    gap: 2.5rem;
+}
+
+#botoes a {
+    color: var(--cor-texto-secundario);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1rem;
+    text-transform: uppercase;
+    transition: color 0.3s;
+}
+
+#botoes a:hover {
+    color: var(--cor-primaria);
+}
+
+/* Botão Deslogar */
+#sair button {
+    background-color: var(--cor-primaria);
+    color: var(--cor-texto-principal);
+    border: none;
+    border-radius: 4px;
+    padding: 0.6rem 1.5rem;
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+#sair button:hover {
+    background-color: var(--cor-primaria-hover);
+}
+
+
+#titulo h1 {
+    font-size: 2.5rem;
+    color: var(--cor-texto-principal);
+    font-weight: 700;
+}
+
+/* =========================================
+   CAIXA DO FORMULÁRIO (Centralizada)
+   ========================================= */
+#form {
+    background-color: var(--cor-fundo-card);
+    padding: 3rem;
+    border-radius: 8px;
+    border: 1px solid var(--cor-borda);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    max-width: 500px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    
+    /* ALTERAÇÃO: Força a altura a se adaptar EXATAMENTE ao conteúdo */
+    height: auto; 
+    /* ALTERAÇÃO: Removido o margin-top de 6rem */
+    margin-top: 0; 
+}
+
+#titulo h1 {
+    font-size: 2rem;
+    color: var(--cor-texto-principal);
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+/* =========================================
+   ALINHAMENTO DOS CAMPOS (LABELS E INPUTS)
+   ========================================= */
+#campos {
+    display: flex;
+    flex-direction: column;
+}
+
+#campos label {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: var(--cor-texto-secundario);
+    margin-bottom: 0.5rem;
+    margin-top: 1.2rem;
+}
+
+/* Remove o espaçamento do topo no primeiro label */
+#campos label:first-child {
+    margin-top: 0;
+}
+
+#campos input {
+    width: 100%;
+    padding: 12px 16px;
+    background-color: var(--cor-fundo-tela);
+    color: var(--cor-texto-principal);
+    border: 1px solid var(--cor-borda);
+    border-radius: 4px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+#campos input:focus {
+    border-color: var(--cor-primaria);
+    box-shadow: 0 0 5px rgba(245, 158, 11, 0.2);
+}
+
+/* =========================================
+   BOTÃO CADASTRAR (Menor e Centralizado)
+   ========================================= */
+#cadastrar {
+    width: 100%;
+    display: flex;
+    justify-content: center; /* Centraliza o botão dentro da div */
+}
+
+#cadastrar button {
+    width: auto;             /* Remove o 100% para ele não esticar */
+    min-width: 180px;        /* Garante um tamanho mínimo elegante */
+    padding: 12px 30px;      /* Espaçamento interno confortável */
+    background-color: var(--cor-primaria);
+    color: var(--cor-texto-principal);
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, transform 0.1s;
+    margin-top: 2.5rem;      /* Afasta o botão dos inputs */
+}
+
+#cadastrar button:hover {
+    background-color: var(--cor-primaria-hover);
+}
+
+#cadastrar button:active {
+    transform: scale(0.98);  /* Leve efeito de clique */
+}
+
+/* =========================================
+   RESPONSIVIDADE (Telas Menores / Celulares)
+   ========================================= */
+@media (max-width: 600px) {
+    #menu {
+        padding: 1rem 1.5rem; /* Diminui o espaçamento interno do menu */
+    }
+
+    #botoes {
+        gap: 1.2rem; /* Aproxima os links do menu para caber em telas estreitas */
+    }
+
+    #botoes a {
+        font-size: 0.85rem; /* Diminui um pouco o texto dos links */
+    }
+
+    #sair button {
+        padding: 0.5rem 1rem; /* Botão deslogar menor no mobile */
+        font-size: 0.8rem;
+    }
+
+    #form {
+        padding: 2rem 1.5rem; /* Reduz o preenchimento interno do card do form */
+        margin-top: 5.5rem;
+    }
+
+    #titulo h1 {
+        font-size: 1.6rem; /* Título menor para não quebrar linha feio */
+    }
+    
+    #cadastrar button {
+        width: 100%; /* No celular, o botão volta a ser cheio para facilitar o toque */
+    }
+}
