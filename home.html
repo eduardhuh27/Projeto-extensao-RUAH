@@ -45,6 +45,27 @@
     </div>
 
     <script>
+        // Quando a página carregar, executa essa função
+        window.addEventListener('DOMContentLoaded', () => {
+            // 1. Pega os dados que foram salvos no login
+            const usuarioSalvo = localStorage.getItem('usuarioLogado');
+
+            // 2. Verifica se existe alguém logado
+            if (usuarioSalvo) {
+                // Converte o texto salvo de volta para um objeto JavaScript
+                const usuario = JSON.parse(usuarioSalvo);
+
+                // 3. Troca o texto do span pelo nome do usuário
+                // ATENÇÃO: Confirme se a propriedade se chama 'nome' no seu banco de dados
+                document.querySelector('#perfil span').textContent = usuario.nome;
+            } else {
+                // Se não tiver dados (usuário tentou entrar direto pela URL sem logar)
+                // Redireciona ele de volta para o login por segurança
+                window.location.href = 'login.html';
+            }
+        });
+
+        // Lógica do botão de deslogar (mantida)
         document.getElementById('btnSair').addEventListener('click', function() {
             localStorage.clear(); 
             sessionStorage.clear(); 

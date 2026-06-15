@@ -38,16 +38,34 @@
             </ul>
         </div>
     </div>
-    <script>
-        // Aguarda o botão ser clicado
-document.getElementById('btnSair').addEventListener('click', function() {
-    // Limpa os dados de login salvos no navegador (se houver)
-    localStorage.clear(); 
-    sessionStorage.clear(); 
+        <script>
+        // Quando a página carregar, executa essa função
+        window.addEventListener('DOMContentLoaded', () => {
+            // 1. Pega os dados que foram salvos no login
+            const usuarioSalvo = localStorage.getItem('usuarioLogado');
 
-    // Redireciona para a página de login
-    window.location.href = 'login.html';
-});
+            // 2. Verifica se existe alguém logado
+            if (usuarioSalvo) {
+                // Converte o texto salvo de volta para um objeto JavaScript
+                const usuario = JSON.parse(usuarioSalvo);
+
+                // 3. Troca o texto do span pelo nome do usuário
+                // ATENÇÃO: Confirme se a propriedade se chama 'nome' no seu banco de dados
+                document.querySelector('#perfil span').textContent = usuario.nome;
+            } else {
+                // Se não tiver dados (usuário tentou entrar direto pela URL sem logar)
+                // Redireciona ele de volta para o login por segurança
+                window.location.href = 'login.html';
+            }
+        });
+
+        // Lógica do botão de deslogar (mantida)
+        document.getElementById('btnSair').addEventListener('click', function() {
+            localStorage.clear(); 
+            sessionStorage.clear(); 
+            window.location.href = 'login.html';
+        });
     </script>
+    
 </body>
 </html>

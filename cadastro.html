@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Cadastro - Sistema RUAH</title>
     <link rel="stylesheet" href="estilos/cadastro.css">
     <script src="https://kit.fontawesome.com/7308a57cc9.js" crossorigin="anonymous"></script>
 </head>
@@ -16,37 +17,92 @@
                 <span>Usuario</span>
         </div>
         <div id="botoes">
-
             <a href="home.html">home</a>
             <a href="listagem.html">Lista dos jovens</a>
             <a href="cadastro.html">Cadastrar</a>
-            
         </div>
         <div id="sair">
             <button id="btnSair">deslogar</button>
         </div>
     </div>
-    <div id="form"></button>
-        <div id="titulo"><h1>Titulo</h1></div>
+
+    <div id="form">
+        <div id="titulo"><h1>Cadastrar Jovem</h1></div>
         <div id="campos">
             <label for="inome">Nome</label>
             <input type="text" name="nome" id="inome">
+            
             <label for="iemail">Email</label>
             <input type="email" name="email" id="iemail">
-            <label for="inumero">Numero</label>
+            
+            <label for="isenha">Numero</label>
             <input type="text" name="numero" id="inumero">
             
             <div id="cadastrar"><button>Cadastrar</button></div>
         </div>
     </div>
-    <script>// Aguarda o botão ser clicado
-document.getElementById('btnSair').addEventListener('click', function() {
-    // Limpa os dados de login salvos no navegador (se houver)
-    localStorage.clear(); 
-    sessionStorage.clear(); 
 
-    // Redireciona para a página de login
-    window.location.href = 'login.html';
-});</script>
+    <script>
+        // Quando a página carregar, executa essa função
+        window.addEventListener('DOMContentLoaded', () => {
+            // 1. Pega os dados que foram salvos no login
+            const usuarioSalvo = localStorage.getItem('usuarioLogado');
+
+            // 2. Verifica se existe alguém logado
+            if (usuarioSalvo) {
+                // Converte o texto salvo de volta para um objeto JavaScript
+                const usuario = JSON.parse(usuarioSalvo);
+
+                // 3. Troca o texto do span pelo nome do usuário
+                // ATENÇÃO: Confirme se a propriedade se chama 'nome' no seu banco de dados
+                document.querySelector('#perfil span').textContent = usuario.nome;
+            } else {
+                // Se não tiver dados (usuário tentou entrar direto pela URL sem logar)
+                // Redireciona ele de volta para o login por segurança
+                window.location.href = 'login.html';
+            }
+        });
+    // Lógica do botão de deslogar (já existente)
+    document.getElementById('btnSair').addEventListener('click', function() {
+        localStorage.clear(); 
+        sessionStorage.clear(); 
+        window.location.href = 'login.html';
+    });
+
+    // CONEXÃO COM O BACK-END: Enviar dados de cadastro
+    document.querySelector('#cadastrar button').addEventListener('click', async (event) => {
+        event.preventDefault(); // Evita que a página recarregue caso o botão esteja dentro de uma tag <form>
+
+        // O .trim() remove os espaços em branco caso a pessoa digite só espaços
+        const nome = document.getElementById('inome').value.trim();
+        const email = document.getElementById('iemail').value.trim();
+        const numero = document.getElementById('inumero').value.trim();
+
+        // 🛑 VALIDAÇÃO: Verifica se algum dos campos está vazio
+        if (!nome || !email || !numero) {
+            alert('Por favor, preencha todos os campos antes de cadastrar!');
+            return; // O 'return' faz o código parar aqui, impedindo que chegue no fetch
+        }
+
+        // Se passou pela validação, envia os dados para a rota do Node.js
+        const resposta = await fetch('http://localhost:3001/cadastro', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nome, email, numero })
+        });
+
+        const dados = await resposta.json();
+        if (resposta.ok) {
+            alert('Cadastrado com sucesso!');
+            
+            // Opcional: Limpar os campos após o cadastro dar certo
+            document.getElementById('inome').value = '';
+            document.getElementById('iemail').value = '';
+            document.getElementById('inumero').value = '';
+        } else {
+            alert(dados.erro || 'Erro ao cadastrar.');
+        }
+    });
+</script>
 </body>
 </html>
