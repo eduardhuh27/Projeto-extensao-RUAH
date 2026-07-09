@@ -60,6 +60,19 @@ app.post('/redefinir-senha', (req, res) => {
     });
 });
 
+// Rota para Listar Jovens
+app.get('/jovens', (req, res) => {
+    const query = 'SELECT * FROM jovens';
+
+    db.query(query, (err, results) => {
+        if (err) {
+            console.error('ERRO AO LISTAR JOVENS:', err);
+            return res.status(500).json({ erro: 'Erro ao buscar jovens' });
+        }
+        res.status(200).json(results);
+    });
+});
+
 app.listen(3001, () => {
     console.log('Servidor RUAH rodando na porta 3001');
 });
