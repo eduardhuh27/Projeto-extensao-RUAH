@@ -246,3 +246,8 @@ body {
         grid-row: auto;
     }
 }
+
+li{
+    margin: 0.5rem 0;
+    margin-left: 1rem;
+}
