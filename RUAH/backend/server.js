@@ -1,0 +1,154 @@
+import express from 'express';
+import cors from 'cors';
+import db from './db.js';
+
+const app = express();
+const PORT = 3000;
+
+app.use(cors());
+app.use(express.json());
+
+// 1. CadastroEdicaojovens.html
+
+// Listar jovens (usado no cadastro/edição e na tela de chamada)
+app.get('/api/membros', async (req, res) => {
+  try {
+    const [rows] = await db.query(
+      `SELECT m.id, m.nome, m.email, m.telefone, m.data_nascimento, m.setor_id, s.nome AS setor_nome
+       FROM membros m
+       LEFT JOIN setores s ON m.setor_id = s.id
+       ORDER BY m.nome`
+    );
+    res.json(rows);
+  } catch (error) {
+    res.status(500).json({ error: 'Erro ao buscar jovens.' });
+  }
+});
+
+// Criar novo Jovem (Membro)
+app.post('/api/membros', async (req, res) => {
+  const { nome, email, telefone, data_nascimento, setor_id } = req.body;
+
+  if (!nome || !email || !data_nascimento) {
+    return res.status(400).json({ error: 'Nome, email e data de nascimento são obrigatórios.' });
+  }
+
+  try {
+    const [result] = await db.query(
+      'INSERT INTO membros (nome, email, telefone, data_nascimento, setor_id) VALUES (?, ?, ?, ?, ?)',
+      [nome, email, telefone, data_nascimento, setor_id || null]
+    );
+    res.status(201).json({ message: 'Jovem cadastrado com sucesso!', id: result.insertId });
+  } catch (error) {
+    if (error.code === 'ER_DUP_ENTRY') {
+      return res.status(400).json({ error: 'Este e-mail já está cadastrado.' });
+    }
+    res.status(500).json({ error: 'Erro interno no servidor.' });
+  }
+});
+
+// 2. TabelaPresenca.html
+
+// Listar eventos para o <select> da tela de chamada
+app.get('/api/eventos', async (req, res) => {
+  try {
+    const [rows] = await db.query('SELECT id, titulo FROM eventos ORDER BY data_evento DESC');
+    res.json(rows);
+  } catch (error) {
+    res.status(500).json({ error: 'Erro ao buscar eventos.' });
+  }
+});
+
+// Registrar a Chamada
+app.post('/api/chamada', async (req, res) => {
+  const { evento_id, listaPresenca } = req.body; // listaPresenca: [{membro_id: 1, status: 'Presente'}, ...]
+
+  if (!evento_id || !Array.isArray(listaPresenca)) {
+    return res.status(400).json({ error: 'Dados da chamada inválidos.' });
+  }
+
+  try {
+    const query = 'INSERT INTO presencas (membro_id, evento_id, status) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE status = ?';
+
+    for (const item of listaPresenca) {
+      await db.query(query, [item.membro_id, evento_id, item.status, item.status]);
+    }
+
+    res.json({ message: 'Chamada registrada com sucesso!' });
+  } catch (error) {
+    res.status(500).json({ error: 'Erro ao salvar a lista de chamada.' });
+  }
+});
+
+// 3. RelatorioPresenca.html
+
+app.get('/api/relatorios/frequencia', async (req, res) => {
+  try {
+    const sql = `
+      SELECT m.id, m.nome,
+             COUNT(CASE WHEN p.status = 'Presente' THEN 1 END) as presencas,
+             COUNT(p.id) as total_eventos
+      FROM membros m
+      LEFT JOIN presencas p ON m.id = p.membro_id
+      GROUP BY m.id;
+    `;
+
+    const [rows] = await db.query(sql);
+
+    const dadosProcessados = rows.map(jovem => {
+      const taxaFrequencia = jovem.total_eventos > 0 ? (jovem.presencas / jovem.total_eventos) * 100 : 100;
+      return {
+        id: jovem.id,
+        nome: jovem.nome,
+        frequencia: `${taxaFrequencia.toFixed(0)}%`,
+        alerta: taxaFrequencia < 50
+      };
+    });
+
+    res.json(dadosProcessados);
+  } catch (error) {
+    res.status(500).json({ error: 'Erro ao gerar relatório.' });
+  }
+});
+
+// 4. Configuracoes.html
+
+app.get('/api/config/setores', async (req, res) => {
+  const { search } = req.query;
+  try {
+    let query = 'SELECT id, nome, idade_min, idade_max FROM setores';
+    let params = [];
+
+    if (search) {
+      query += ' WHERE nome LIKE ?';
+      params.push(`%${search}%`);
+    }
+
+    const [setores] = await db.query(query, params);
+    res.json(setores);
+  } catch (error) {
+    res.status(500).json({ error: 'Erro ao carregar setores.' });
+  }
+});
+
+app.post('/api/config/setores', async (req, res) => {
+  const { nome, descricao, idade_min, idade_max } = req.body;
+
+  if (!nome || idade_min === undefined || idade_max === undefined) {
+    return res.status(400).json({ error: 'Campos obrigatórios ausentes.' });
+  }
+
+  try {
+    await db.query(
+      'INSERT INTO setores (nome, descricao, idade_min, idade_max) VALUES (?, ?, ?, ?)',
+      [nome, descricao || '', idade_min, idade_max]
+    );
+    res.status(201).json({ message: 'Setor configurado com sucesso!' });
+  } catch (error) {
+    res.status(500).json({ error: 'Erro ao salvar novo setor.' });
+  }
+});
+
+app.listen(PORT, () => {
+  console.log(`🚀 Servidor do Sistema RUAH rodando em http://localhost:${PORT}`);
+});
