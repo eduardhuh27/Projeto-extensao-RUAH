@@ -60,6 +60,51 @@ app.post('/redefinir-senha', (req, res) => {
     });
 });
 
+// ==========================================
+// ROTAS PARA GERENCIAMENTO DE JOVENS (CRUD)
+// ==========================================
+
+// 1. Rota para LISTAR todos os jovens
+app.get('/jovens', (req, res) => {
+    // Busca todos os jovens, ordenando do mais recente para o mais antigo
+    const query = 'SELECT * FROM jovens ORDER BY id DESC';
+    
+    db.query(query, (err, results) => {
+        if (err) {
+            return res.status(500).json({ erro: 'Erro ao buscar a lista de jovens' });
+        }
+        res.status(200).json(results);
+    });
+});
+
+// 2. Rota para DELETAR um jovem específico pelo ID
+app.delete('/jovens/:id', (req, res) => {
+    const { id } = req.params; // Pega o ID que vem na URL
+    const query = 'DELETE FROM jovens WHERE id = ?';
+    
+    db.query(query, [id], (err, result) => {
+        if (err) {
+            return res.status(500).json({ erro: 'Erro ao deletar o jovem' });
+        }
+        res.status(200).json({ mensagem: 'Jovem removido com sucesso!' });
+    });
+});
+
+// 3. Rota para EDITAR os dados de um jovem pelo ID
+app.put('/jovens/:id', (req, res) => {
+    const { id } = req.params;
+    const { nome, email, numero } = req.body; // Pega os novos dados enviados pelo Front-end
+    
+    const query = 'UPDATE jovens SET nome = ?, email = ?, numero = ? WHERE id = ?';
+    
+    db.query(query, [nome, email, numero, id], (err, result) => {
+        if (err) {
+            return res.status(500).json({ erro: 'Erro ao atualizar os dados' });
+        }
+        res.status(200).json({ mensagem: 'Dados atualizados com sucesso!' });
+    });
+});
+
 app.listen(3001, () => {
     console.log('Servidor RUAH rodando na porta 3001');
 });

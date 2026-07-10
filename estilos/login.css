@@ -146,7 +146,7 @@ body {
     text-align: center;
 }
 
-/* Oculta as labels para manter idêntico ao design limpo do protótipo */
+/* Oculta as labels */
 #email label, #senha label {
     display: none;
 }
@@ -159,12 +159,41 @@ body {
     outline: none;
     font-size: 1rem;
     background-color: transparent;
+    transition: border-color 0.3s;
 }
 
-#email input:focus, #senha input:focus {
-    border-color: var(--cor-primaria);
-    /*fazer a borda do olhinho também ficar laranja quando o input estiver focado*/
+/* Remove borda direita do input de senha para juntar com o botão do olho */
+#senha input {
+    border-right: none;
+}
 
+/* Botão do olhinho dentro da senha */
+#senha button {
+    border: 1px solid var(--cor-borda);
+    border-left: none; /* Remove a borda esquerda para unir com o input */
+    color: var(--cor-icone);
+    padding: 0 15px;
+    align-self: stretch; 
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    transition: border-color 0.3s, color 0.3s;
+}
+
+#senha button:hover {
+    color: var(--cor-texto-principal);
+}
+
+/* MÁGICA DO FOCO:
+   Quando QUALQUER elemento dentro de #email ou #senha for focado,
+   muda a borda do input e do botão para a cor primária (Laranja) 
+*/
+#email:focus-within input,
+#senha:focus-within input,
+#senha:focus-within button {
+    border-color: var(--cor-primaria);
 }
 
 
@@ -259,42 +288,45 @@ body {
 }
 
 /* =========================================
-   POPUP (GERAL)
+   POPUP (GERAL) - TEMA ESCURO
    ========================================= */
 .popup-overlay {
-    display: none; /* Oculto por padrão */
+    display: none; 
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(0, 0, 0, 0.7); /* Fundo um pouco mais escuro para destacar */
+    backdrop-filter: blur(3px); /* Efeito de desfoque sutil no fundo (opcional) */
     z-index: 1000;
     align-items: center;
     justify-content: center;
 }
 
 .popup-content {
-    background-color: #ffffff;
+    background-color: var(--cor-fundo-form); /* Usa o mesmo cinza do formulário principal */
     padding: 2.5rem;
     border-radius: 8px;
     width: 90%;
     max-width: 400px;
     position: relative;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5); /* Sombra mais elegante */
+    border: 1px solid var(--cor-borda); /* Borda sutil para separar do fundo */
     text-align: center;
 }
 
 .popup-content h2 {
     margin-bottom: 0.5rem;
-    color: #333;
+    color: var(--cor-texto-principal);
     font-size: 1.5rem;
 }
 
 .popup-content p {
     font-size: 0.85rem;
-    color: #666;
+    color: var(--cor-texto-secundario);
     margin-bottom: 1.5rem;
+    line-height: 1.4;
 }
 
 .close-btn {
@@ -302,13 +334,13 @@ body {
     top: 15px;
     right: 20px;
     font-size: 1.8rem;
-    color: #999;
+    color: var(--cor-texto-secundario);
     cursor: pointer;
     transition: color 0.3s;
 }
 
 .close-btn:hover {
-    color: #333;
+    color: var(--cor-primaria); /* Fecha o 'X' ficando laranja no hover */
 }
 
 .input-group {
@@ -320,41 +352,47 @@ body {
     display: block;
     margin-bottom: 0.5rem;
     font-size: 0.9rem;
-    color: #333;
+    color: var(--cor-texto-principal); /* Label branca */
     font-weight: bold;
 }
 
 .input-group input {
     width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
+    padding: 12px;
+    border: 1px solid var(--cor-borda);
     border-radius: 4px;
     font-size: 1rem;
     outline: none;
+    background-color: transparent; /* Fundo transparente igual ao login */
+    color: var(--cor-texto-principal);
+    transition: border-color 0.3s;
 }
 
 .input-group input:focus {
-    border-color: #2b95d6;
+    border-color: var(--cor-primaria); /* Borda laranja no foco */
 }
 
 /* Botão de Ação do Popup */
 .btn-popup {
     width: 100%;
-    padding: 12px;
-    background-color: #2b95d6;
-    color: white;
+    padding: 15px;
+    background-color: var(--cor-primaria); /* Laranja padrão */
+    color: var(--cor-texto-principal);
     border: none;
     border-radius: 4px;
     font-size: 1rem;
     font-weight: bold;
+    text-transform: uppercase;
     cursor: pointer;
     margin-top: 1rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     transition: background-color 0.3s;
 }
 
 .btn-popup:hover {
-    background-color: #1a7bbd;
+    background-color: var(--cor-primaria-hover);
 }
+
 
 /* =========================================
    DROPDOWN MENU

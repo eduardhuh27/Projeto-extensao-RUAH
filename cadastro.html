@@ -14,7 +14,7 @@
              <svg class="user-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 6C13.93 6 15.5 7.57 15.5 9.5C15.5 11.43 13.93 13 12 13C10.07 13 8.5 11.43 8.5 9.5C8.5 7.57 10.07 6 12 6ZM12 20C9.97 20 7.57 19.18 5.86 17.12C7.55 15.8 9.68 15 12 15C14.32 15 16.45 15.8 18.14 17.12C16.43 19.18 14.03 20 12 20Z" />
                 </svg>
-                <span>Usuario</span>
+                <span>Usuário</span>
         </div>
         <div id="botoes">
             <a href="home.html">home</a>
@@ -32,7 +32,7 @@
                 </div>
             </div>
         <div id="sair">
-            <button id="btnSair">deslogar</button>
+            <button id="btnSair">Deslogar</button>
         </div>
     </div>
 
@@ -40,13 +40,13 @@
         <div id="titulo"><h1>Cadastrar Jovem</h1></div>
         <div id="campos">
             <label for="inome">Nome</label>
-            <input type="text" name="nome" id="inome">
-            
+            <input type="text" name="nome" id="inome" placeholder="Ex: João da Silva">
+
             <label for="iemail">Email</label>
-            <input type="email" name="email" id="iemail">
+            <input type="email" name="email" id="iemail" placeholder="Ex: joao@email.com">
             
-            <label for="isenha">Numero</label>
-            <input type="text" name="numero" id="inumero">
+            <label for="inumero">Número</label>
+            <input type="text" name="numero" id="inumero" maxlength="15" placeholder="(XX) XXXXX-XXXX">
             
             <div id="cadastrar"><button>Cadastrar</button></div>
         </div>
@@ -111,6 +111,29 @@
             document.getElementById('inumero').value = '';
         } else {
             alert(dados.erro || 'Erro ao cadastrar.');
+        }
+    });
+
+    // ==========================================
+    // MÁSCARA DO TELEFONE
+    // ==========================================
+    const campoNumero = document.getElementById('inumero');
+
+    campoNumero.addEventListener('input', function (e) {
+        // Remove qualquer caractere que não seja número (letras, símbolos, etc)
+        let valor = e.target.value.replace(/\D/g, '');
+        
+        // Usa Regex para separar os números em blocos lógicos:
+        // x[1] = DDD (até 2 números)
+        // x[2] = Primeira parte do número (até 5 números)
+        // x[3] = Segunda parte do número (até 4 números)
+        let x = valor.match(/(\d{0,2})(\d{0,5})(\d{0,4})/);
+        
+        // Remonta o valor com os parênteses e hífen conforme os blocos vão sendo preenchidos
+        if (!x[2]) {
+            e.target.value = x[1];
+        } else {
+            e.target.value = '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
         }
     });
 </script>

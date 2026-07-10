@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tela login</title>
+    <title>Tela de login</title>
     <script src="https://kit.fontawesome.com/7308a57cc9.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="estilos/login.css">
     <script>
@@ -34,20 +34,23 @@
                 <h1>Entrar no Sistema</h1>
             </div>
             <div id="subtitulo">
-                <p>Por favor insira suas credenciais abaixo para acessar o painel de controle e gerenciar membros e eventos</p>
+                <p>Por favor, insira suas credenciais abaixo para acessar o painel de controle e gerenciar membros e eventos</p>
             </div>
             
             <div id="email">
                 <i class="fa-solid fa-user" style="color: white;" ></i>
-                <label for="iemail">Email:</label>
+                <label for="iemail">E-mail:</label>
                 <input type="email" name="email" id="iemail">
             </div>
             
             <div id="senha">
-                <i class="fa-solid fa-lock" style="color: white;"></i> <label for="isenha">Senha:</label>
-                <input type="password" name="senha" id="isenha" required minlength="8" maxlength="12">
-                <button><i class="fa-solid fa-eye-slash"></i></button> 
-            </div>
+    <i class="fa-solid fa-lock" style="color: white;"></i> 
+    <label for="isenha">Senha:</label>
+    <input type="password" name="senha" id="isenha" required minlength="8" maxlength="12">
+    <button type="button" id="btnOlho" onclick="mostrarSenha()">
+        <i id="iconeOlho" class="fa-solid fa-eye-slash"></i>
+    </button> 
+</div>
             
             <div id="esquecerSenha">
                 <a href="#" onclick="abrirPopupSenha(); return false;">ESQUECI MINHA SENHA</a> 
@@ -68,7 +71,7 @@
             
             <form id="formAlterarSenha">
                 <div class="input-group">
-                    <label for="emailRecuperacao">Email cadastrado:</label>
+                    <label for="emailRecuperacao">E-mail cadastrado:</label>
                     <input type="email" id="emailRecuperacao" required>
                 </div>
                 
@@ -88,7 +91,7 @@
     </div>
 
     <script>
-    // Lógica para enviar dados de Login ao servidor Node.js
+    // Lógica para enviar dados de login ao servidor Node.js
     document.querySelector('#logar button').addEventListener('click', async () => {
         const email = document.getElementById('iemail').value;
         const senha = document.getElementById('isenha').value;
@@ -134,6 +137,22 @@
             alert(dados.erro || 'Erro ao redefinir senha.');
         }
     });
+
+    // Lógica para mostrar/ocultar a senha
+function mostrarSenha() {
+    const inputSenha = document.getElementById('isenha');
+    const iconeOlho = document.getElementById('iconeOlho');
+
+    if (inputSenha.type === 'password') {
+        inputSenha.type = 'text'; // Mostra a senha
+        iconeOlho.classList.remove('fa-eye-slash');
+        iconeOlho.classList.add('fa-eye'); // Muda o ícone para o olho aberto
+    } else {
+        inputSenha.type = 'password'; // Oculta a senha
+        iconeOlho.classList.remove('fa-eye');
+        iconeOlho.classList.add('fa-eye-slash'); // Volta o ícone para o olho fechado
+    }
+}
     </script>
 </body>
 </html>
