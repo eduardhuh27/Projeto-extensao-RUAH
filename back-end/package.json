@@ -1,0 +1,14 @@
+{
+  "name": "backend-ruah",
+  "version": "1.0.0",
+  "description": "API de Login e Cadastro do Sistema RUAH",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.22.2",
+    "mysql2": "^3.6.0"
+  }
+}

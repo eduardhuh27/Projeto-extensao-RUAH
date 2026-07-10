@@ -1,0 +1,344 @@
+/* =========================================
+   VARIÁVEIS DE CORES (Mantendo a identidade)
+   ========================================= */
+:root {
+    --cor-fundo-tela: #121212;        /* Quase preto */
+    --cor-fundo-card: #1e1e1e;        /* Cinza chumbo */
+    --cor-primaria: #f59e0b;          /* Laranja vibrante */
+    --cor-primaria-hover: #e28e08;    /* Laranja mais escuro */
+    --cor-texto-principal: #ffffff;   /* Branco puro */
+    --cor-texto-secundario: #b0b0b0;  /* Cinza claro */
+    --cor-borda: #444444;             /* Cinza médio */
+}
+
+/* =========================================
+   RESET E CONFIGURAÇÕES GERAIS
+   ========================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background: radial-gradient(circle at right, rgba(73, 48, 4, 0.425) 0%, var(--cor-fundo-tela) 100%);
+    background-attachment: fixed;
+    color: var(--cor-texto-principal);
+    min-height: 100vh;
+    
+    /* ALTERAÇÃO: Adicionado Flexbox no body para organizar o fluxo vertical
+       e um padding superior perfeito para o menu ilha flutuante */
+    display: flex;
+    flex-direction: column;
+    
+    box-sizing: border-box;
+    padding: 8rem 1rem 3rem 1rem;
+}
+
+/* =========================================
+   BARRA DE NAVEGAÇÃO (Menu Estilo Ilha Flutuante)
+   ========================================= */
+#menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--cor-fundo-card);
+    padding: 1rem 3rem;
+    
+    /* MODIFICAÇÕES PARA O EFEITO DE ILHA */
+    border: 1px solid var(--cor-borda);     /* Borda em toda a volta do menu */
+    border-radius: 8px;                     /* Cantos arredondados para parecer um card */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5); /* Sombra mais marcante para dar profundidade */
+    
+    /* POSICIONAMENTO FIXO CENTRALIZADO COM ESPAÇAMENTO */
+    position: fixed;
+    top: 20px;                              /* Distância do topo da tela */
+    left: 0;
+    right: 0;
+    width: calc(100% - 40px);               /* Ocupa a largura total menos os espaços das laterais */
+    max-width: 1200px;                      /* Não passa de 1200px de largura */
+    margin: 0 auto;                         /* Centraliza o menu na tela horizontalmente */
+    z-index: 1000;                          /* Continua passando por cima do conteúdo */
+}
+
+/* =========================================
+   TÍTULO PRINCIPAL (Ajuste de margem)
+   ========================================= */
+#titulo {
+    text-align: center;
+    /* ALTERAÇÃO: Removemos os 9.5rem. Agora o título usa apenas o 
+       espaço necessário para respirar em relação ao menu e ao grid */
+    margin: 3.5rem 0 1rem 0;
+}
+
+#perfil {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.user-icon {
+    width: 28px;
+    height: 28px;
+    color: var(--cor-texto-principal);
+}
+
+#botoes {
+    display: flex;
+    gap: 1.5rem;
+}
+
+#botoes a {
+    color: var(--cor-texto-secundario);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1rem;
+    text-transform: uppercase;
+    transition: color 0.3s;
+}
+
+#botoes a:hover {
+    color: var(--cor-primaria);
+}
+
+/* Botão Deslogar */
+#sair button {
+    background-color: var(--cor-primaria);
+    color: var(--cor-texto-principal);
+    border: none;
+    border-radius: 4px;
+    padding: 0.6rem 1.5rem;
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+#sair button:hover {
+    background-color: var(--cor-primaria-hover);
+}
+
+
+#titulo h1 {
+    font-size: 2.2rem; /* Ajustado sutilmente para harmonizar o espaço */
+    color: var(--cor-texto-principal);
+    font-weight: 700;
+    margin-bottom: 1
+    
+    .5rem; /* Reduzido para aproximar o título do conteúdo */
+}
+
+/* =========================================
+   CONTEÚDO E ESTRUTURA GRID
+   ========================================= */
+#conteudo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* ALTERAÇÃO: Reduzido de 3rem para 1.5rem para aproximar os elementos 
+       e economizar a preciosa altura da tela */
+    gap: 1.5rem;                     
+    max-width: 1200px;
+    margin: 0 auto;
+    /* ALTERAÇÃO: Zerado o padding do topo (já controlado pelo título) */
+    padding: 0 2rem 2rem 2rem;
+}
+
+/* Lado Esquerdo: Imagem expandida */
+#img {
+    grid-column: 1;
+    grid-row: 1 / span 2; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--cor-fundo-card);
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--cor-borda);
+}
+
+#img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+    /* ALTERAÇÃO: Reduzido de 400px para 320px. Isso impede que a imagem 
+       force telas de laptops e monitores médios a scrollar */
+    min-height: 320px;  
+}
+
+/* Lado Direito: Caixas de Texto */
+#caixa1, #caixa2 {
+    background-color: var(--cor-fundo-card);
+    /* ALTERAÇÃO: Reduzido de 2rem para 1.5rem para manter as caixas de texto compactas */
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid var(--cor-borda);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#caixa1 {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+#caixa2 {
+    grid-column: 2;
+    grid-row: 2;
+}
+
+#caixa1 h1, #caixa2 h1 {
+    font-size: 1.6rem;
+    color: var(--cor-primaria); 
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+#caixa1 p, #caixa2 p {
+    font-size: 1rem;
+    color: var(--cor-texto-secundario);
+    line-height: 1.6;
+}
+
+/* =========================================
+   RESPONSIVIDADE (Telas Menores / Celulares)
+   ========================================= */
+@media (max-width: 900px) {
+    #menu {
+        padding: 1rem 1.5rem;
+    }
+    
+    #botoes {
+        gap: 1.2rem;
+    }
+    
+    #botoes a {
+        font-size: 0.85rem;
+    }
+
+    #sair button {
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+    }
+
+    #titulo {
+        margin-top: 6.5rem; /* Ajusta a margem do título em telas menores */
+    }
+
+    #conteudo {
+        grid-template-columns: 1fr; /* Vira uma coluna única */
+        gap: 2rem;
+    }
+
+    #img {
+        grid-column: 1;
+        grid-row: auto; 
+    }
+    
+    #img img {
+        height: 300px; 
+    }
+
+    #caixa1, #caixa2 {
+        grid-column: 1;
+        grid-row: auto;
+    }
+}
+
+/* =========================================
+   DROPDOWN MENU
+   ========================================= */
+
+/* O contêiner precisa ser relativo para ancorar o menu absoluto */
+.dropdown {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* Estilo do texto "MENU ▼" (Semelhante aos links principais) */
+.dropbtn {
+    color: var(--cor-texto-secundario);
+    font-weight: bold;
+    font-size: 1rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+/* Muda a cor do título do menu quando passamos o mouse no contêiner inteiro */
+.dropdown:hover .dropbtn {
+    color: var(--cor-primaria);
+}
+
+/* A caixa que guarda as opções */
+.dropdown-content {
+    display: none; /* Escondido por padrão */
+    position: absolute;
+    top: 100%; 
+    left: 50%;
+    transform: translateX(-50%); /* Centraliza exatamente abaixo do "MENU" */
+    background-color: var(--cor-fundo-card);
+    min-width: 180px; /* Largura mínima para caber os textos */
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7); /* Sombra um pouco mais forte */
+    z-index: 1001; 
+    margin-top: 1rem; /* Dá um respiro entre o botão e a caixa */
+    padding: 0.5rem 0;
+    
+    /* Prepara para um efeito suave ao aparecer */
+    opacity: 0;
+    animation: fadeInDropdown 0.3s forwards;
+}
+
+/* "Ponte invisível": 
+   Como adicionamos margin-top, o mouse pode perder o hover 
+   no espaço vazio. Esse pseudo-elemento cobre o buraco.
+*/
+.dropdown-content::before {
+    content: '';
+    position: absolute;
+    top: -1rem;
+    left: 0;
+    width: 100%;
+    height: 1rem;
+}
+
+/* Sobrescrevendo o estilo '#botoes a' para as opções do dropdown */
+ .dropdown-content a {
+    color: var(--cor-texto-principal);
+    padding: 12px 20px;
+    text-decoration: none;
+    display: block; /* Ocupa a linha toda */
+    font-size: 0.9rem; /* Levemente menor que o menu principal */
+    font-weight: normal; /* Tira o negrito */
+    text-transform: none; /* Tira o tudo maiúsculo */
+    transition: background-color 0.2s, color 0.2s;
+}
+
+/* Efeito ao passar o mouse nas opções internas */
+.dropdown-content a:hover {
+    background-color: rgba(245, 158, 11, 0.1); /* Fundo laranja bem translúcido */
+    color: var(--cor-primaria);
+}
+
+/* Faz a caixa aparecer quando passamos o mouse no .dropdown */
+.dropdown:hover .dropdown-content {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Animação suave para o menu não aparecer "seco" */
+@keyframes fadeInDropdown {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -10px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
