@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatorio de presença - Sistema RUAH</title>
+    <link rel="stylesheet" href="estilos/relatorio.css">
+    <link rel="stylesheet" href="estilos/home.css">
+    <style>
+        /* Estilos para os status de frequência */
+        .status-bom { color: green; font-weight: bold; }
+        .status-alerta { color: red; font-weight: bold; }
+        .erro-msg { text-align: center; color: red; font-weight: bold; padding: 20px; }
+    </style>
+</head>
+<body>
+<header>
+    <div id="menu">
+        <div id="perfil">
+             <svg class="user-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 6C13.93 6 15.5 7.57 15.5 9.5C15.5 11.43 13.93 13 12 13C10.07 13 8.5 11.43 8.5 9.5C8.5 7.57 10.07 6 12 6ZM12 20C9.97 20 7.57 19.18 5.86 17.12C7.55 15.8 9.68 15 12 15C14.32 15 16.45 15.8 18.14 17.12C16.43 19.18 14.03 20 12 20Z" />
+                </svg>
+                <span>Usuario</span>
+        </div>
+        <div id="botoes">
+           <a href="home.html">home</a>
+            <a href="listagem.html">Lista dos jovens</a>
+            <a href="cadastro.html">Cadastrar</a>
+        </div>
+        <div class="dropdown">
+                <span class="text-button dropbtn">MENU ▼</span>
+                <div class="dropdown-content">
+                    <a href="home.html">Home</a>
+                    <a href="listagem.html">Lista dos jovens</a>
+                    <a href="cadastro.html">Cadastrar</a>
+                    <a href="CadastroEdicaojovens.html">Editar jovens</a>
+                    <a href="RelatorioPresenca.html">Relatorio de presença</a> 
+                    <a href="TabelaPresenca.html">Tabela de presença</a>
+                    <a href="Configuracoes.html">Configurações</a>
+                </div>
+            </div>
+        <div id="sair">
+            <button id="btnSair">deslogar</button>
+        </div>
+    </div>
+</header>
+
+    <main class="main-content">
+        <div class="card">
+            <h1>Relatório de Presença</h1>
+
+            <table class="simple-table">
+                <thead>
+                    <tr>
+                        <!-- Cabeçalhos atualizados para refletir o retorno do backend -->
+                        <th>Nome </th>
+                        <th>Frequência (%)</th>
+                        <th class="col-narrow">Situação</th>
+                    </tr>
+                </thead>
+                <tbody id="tabela-presenca-body">
+                    <tr><td colspan="3" style="text-align:center;">Carregando dados...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        // Lógica de usuário logado
+        const usuarioSalvo = localStorage.getItem('usuarioLogado');
+
+        if (usuarioSalvo) {
+            const usuario = JSON.parse(usuarioSalvo);
+            document.querySelector('#perfil span').textContent = usuario.nome;
+        } else {
+            window.location.href = 'login.html';
+        }
+
+        // Chama a função que consome a API
+        carregarRelatorioReal();
+    });
+
+    document.getElementById('btnSair').addEventListener('click', function() {
+        localStorage.clear(); 
+        sessionStorage.clear(); 
+        window.location.href = 'login.html';
+    });
+
+    // --- NOVA LÓGICA: Fetch para a API Real ---
+    async function carregarRelatorioReal() {
+        const tbody = document.getElementById('tabela-presenca-body');
+
+        try {
+            // Requisição para o backend conforme definido no server.js (porta 3000)
+            const resposta = await fetch('http://localhost:3000/api/relatorios/frequencia');
+            
+            if (!resposta.ok) {
+                throw new Error('Erro ao buscar dados na API.');
+            }
+
+            // Converte a resposta em JSON (Array de objetos com id, nome, frequencia, alerta)
+            const dados = await resposta.json();
+            
+            // Limpa o aviso de "Carregando"
+            tbody.innerHTML = '';
+
+            if (dados.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;">Nenhum dado encontrado.</td></tr>';
+                return;
+            }
+
+            // Monta as linhas da tabela com base no retorno da API
+            dados.forEach(jovem => {
+                const tr = document.createElement('tr');
+
+                // Coluna 1: Nome
+                const tdNome = document.createElement('td');
+                tdNome.textContent = jovem.nome;
+
+                // Coluna 2: Frequência
+                const tdFreq = document.createElement('td');
+                tdFreq.textContent = jovem.frequencia;
+
+                // Coluna 3: Situação (Alerta)
+                const tdSituacao = document.createElement('td');
+                tdSituacao.classList.add('col-narrow');
+                
+                // O backend retorna jovem.alerta = true se for menor que 50%
+                if (jovem.alerta) {
+                    tdSituacao.textContent = 'Alerta Baixa Freq.';
+                    tdSituacao.classList.add('status-alerta');
+                } else {
+                    tdSituacao.textContent = 'Regular';
+                    tdSituacao.classList.add('status-bom');
+                }
+
+                // Insere colunas na linha
+                tr.appendChild(tdNome);
+                tr.appendChild(tdFreq);
+                tr.appendChild(tdSituacao);
+
+                // Insere linha no corpo da tabela
+                tbody.appendChild(tr);
+            });
+
+        } catch (erro) {
+            console.error('Falha na comunicação com o backend:', erro);
+            tbody.innerHTML = `<tr><td colspan="3" class="erro-msg">Não foi possível carregar o relatório. Verifique se o servidor está rodando.</td></tr>`;
+        }
+    }
+</script>
+</body>
+</html>

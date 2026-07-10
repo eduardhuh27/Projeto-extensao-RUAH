@@ -1,0 +1,354 @@
+/* 
+   RESET E CONFIGURAÇÕES GERAIS
+    */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+:root {
+    --cor-fundo-tela: #121212;        /* Quase preto para o fundo geral */
+    --cor-fundo-form: #1e1e1e;        /* Cinza chumbo para o formulário */
+    --cor-primaria: #f59e0b;          /* Laranja vibrante do botão */
+    --cor-primaria-hover: #e28e08;    /* Laranja mais escuro para o hover */
+    --cor-texto-principal: #ffffff;   /* Branco puro para títulos */
+    --cor-texto-secundario: #b0b0b0;  /* Cinza claro para subtítulos e links */
+    --cor-borda: #444444;             /* Cinza médio para as bordas dos inputs */
+    --cor-icone: #cccccc;             /* Cinza claro para os ícones */
+    --cor-overlay: rgba(0, 0, 0, 0.5); /* Película escura sobre a imagem */
+}
+
+body {
+   /* Gradiente linear do cinza escuro para a cor de fundo padrão */
+    background: radial-gradient(circle at right, rgba(73, 48, 4, 0.425) 0%, var(--cor-fundo-tela) 100%);
+    background-attachment: fixed;
+   
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+    padding: 40px;
+}
+
+/* 
+   BARRA DE NAVEGAÇÃO (HEADER)
+    */
+.navbar {
+    width: 100%;
+    max-width: 1200px;
+    background-color: var(--cor-fundo-form);
+    border: 1px solid var(--cor-borda);
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-weight: bold;
+    font-size: 14px;
+    color: var(--cor-texto-principal);
+}
+
+.user-icon {
+    width: 40px;
+    height: 40px;
+    fill: var(--cor-icone); /* Para SVG inline */
+    color: var(--cor-icone);
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+}
+
+.text-button {
+    color: var(--cor-primaria);
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+/* 
+   MENU DROPDOWN (SUSPENSO)
+*/
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropbtn {
+    cursor: pointer;
+}
+
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%; 
+    left: 0;
+    background-color: var(--cor-fundo-form);
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.5);
+    border: 1px solid var(--cor-borda);
+    border-radius: 4px;
+    z-index: 10; 
+    overflow: hidden; 
+}
+
+.dropdown-content a {
+    color: var(--cor-texto-secundario);
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+
+.dropdown-content a:hover {
+    background-color: var(--cor-borda);
+    color: var(--cor-primaria);
+}
+
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+
+/* 
+   BOTÕES PRINCIPAIS
+ */
+.primary-button {
+    background-color: var(--cor-primaria);
+    color: #080808;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 30px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: background-color 0.3s;
+}
+
+.primary-button:hover {
+    background-color: var(--cor-primaria-hover);
+}
+
+/* 
+   CONTEÚDO PRINCIPAL E CARTÕES
+*/
+.main-content {
+    display: flex;
+    gap: 40px;
+    width: 100%;
+    max-width: 1100px;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.card {
+    background-color: var(--cor-fundo-form);
+    border-radius: 8px;
+    padding: 40px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    max-width: 500px;
+    min-height: 400px;
+}
+
+.card h2 {
+    margin-bottom: 30px;
+    color: var(--cor-texto-principal);
+    font-size: 1.4rem;
+    text-align: center;
+}
+
+/*
+   CARTÃO ESQUERDO: BARRA DE PESQUISA E TABELA
+*/
+.search-container {
+    display: flex;
+    align-items: center;
+    background-color: var(--cor-fundo-tela);
+    border: 1px solid var(--cor-borda);
+    border-radius: 20px;
+    padding: 8px 15px;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.search-icon, .close-icon {
+    color: var(--cor-icone);
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.search-container input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 0 10px;
+    font-size: 14px;
+    color: var(--cor-texto-principal);
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table th, .data-table td {
+    border: 1px solid var(--cor-borda);
+    padding: 12px;
+    text-align: center;
+    font-size: 12px;
+}
+
+.data-table th {
+    font-weight: bold;
+    color: var(--cor-texto-principal);
+    background-color: rgba(255, 255, 255, 0.05); 
+}
+
+.data-table td {
+    color: var(--cor-texto-secundario);
+}
+
+
+.data-table tbody tr {
+    height: 35px;
+}
+
+/*
+   CARTÃO DIREITO: FORMULÁRIO E INPUTS
+ */
+.form-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 25px;
+    width: 100%;
+    max-width: 350px;
+}
+
+.form-group label {
+    font-size: 12px;
+    color: var(--cor-texto-secundario);
+    font-weight: bold;
+    min-width: 40px;
+}
+
+.form-control {
+    flex: 1;
+    padding: 10px 15px;
+    background-color: var(--cor-fundo-tela);
+    border: 1px solid var(--cor-borda);
+    color: var(--cor-texto-principal);
+    border-radius: 20px;
+    font-size: 14px;
+    outline: none;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: border-color 0.3s;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.form-control:focus {
+    border-color: var(--cor-primaria);
+}
+
+
+.select-wrapper {
+    flex: 1;
+    position: relative;
+}
+
+.select-wrapper select {
+    width: 100%;
+    cursor: pointer;
+}
+
+.select-wrapper select option {
+    background-color: var(--cor-fundo-form);
+    color: var(--cor-texto-principal);
+}
+
+.select-wrapper::after {
+    content: "↕";
+    font-size: 12px;
+    color: var(--cor-icone);
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+
+.btn-form {
+    margin-top: auto;
+    border-radius: 20px;
+    padding: 12px 40px;
+}
+
+/*
+   RESPONSIVIDADE
+ */
+@media (max-width: 850px) {
+    body {
+        padding: 20px;
+    }
+    
+    .main-content {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .card {
+        width: 100%;
+        max-width: 500px;
+    }
+    
+    .navbar {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .nav-left {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .nav-links {
+        gap: 20px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}

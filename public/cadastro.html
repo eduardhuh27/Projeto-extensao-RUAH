@@ -1,0 +1,143 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - Sistema RUAH</title>
+    <link rel="stylesheet" href="estilos/cadastro.css">
+    <script src="https://kit.fontawesome.com/7308a57cc9.js" crossorigin="anonymous"></script>
+</head>
+<body>
+     <div id="menu">
+        <div id="perfil">
+             <svg class="user-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 6C13.93 6 15.5 7.57 15.5 9.5C15.5 11.43 13.93 13 12 13C10.07 13 8.5 11.43 8.5 9.5C8.5 7.57 10.07 6 12 6ZM12 20C9.97 20 7.57 19.18 5.86 17.12C7.55 15.8 9.68 15 12 15C14.32 15 16.45 15.8 18.14 17.12C16.43 19.18 14.03 20 12 20Z" />
+                </svg>
+                <span>Usuario</span>
+        </div>
+        <div id="botoes">
+           <a href="home.html">home</a>
+            <a href="listagem.html">Lista dos jovens</a>
+            <a href="cadastro.html">Cadastrar</a>
+           
+        </div>
+        <div class="dropdown">
+                <span class="text-button dropbtn">MENU ▼</span>
+                <div class="dropdown-content">
+                    <a href="home.html">home</a>
+            <a href="listagem.html">Lista dos jovens</a>
+            <a href="cadastro.html">Cadastrar</a>
+            <a href="CadastroEdicaojovens.html">Editar jovens</a>
+            <a href="RelatorioPresenca.html">Relatorio de presença</a> 
+            <a href="TabelaPresenca.html">Tabela de presença</a>
+             <a href="Configuracoes.html">Configurações</a>
+                </div>
+            </div>
+        <div id="sair">
+            <button id="btnSair">deslogar</button>
+        </div>
+    </div>
+
+    <div id="form">
+        <div id="titulo"><h1>Cadastrar Jovem</h1></div>
+        <div id="campos">
+            <label for="inome">Nome</label>
+            <input type="text" name="nome" id="inome">
+            
+            <label for="iemail">Email</label>
+            <input type="email" name="email" id="iemail">
+            
+            <label for="isenha">Numero</label>
+            <input type="text" name="numero" id="inumero">
+            
+            <div id="cadastrar"><button>Cadastrar</button></div>
+        </div>
+    </div>
+
+    <script>
+        // Quando a página carregar, executa essa função
+        window.addEventListener('DOMContentLoaded', () => {
+            // 1. Pega os dados que foram salvos no login
+            const usuarioSalvo = localStorage.getItem('usuarioLogado');
+
+            // 2. Verifica se existe alguém logado
+            if (usuarioSalvo) {
+                // Converte o texto salvo de volta para um objeto JavaScript
+                const usuario = JSON.parse(usuarioSalvo);
+
+                // 3. Troca o texto do span pelo nome do usuário
+                // ATENÇÃO: Confirme se a propriedade se chama 'nome' no seu banco de dados
+                document.querySelector('#perfil span').textContent = usuario.nome;
+            } else {
+                // Se não tiver dados (usuário tentou entrar direto pela URL sem logar)
+                // Redireciona ele de volta para o login por segurança
+                window.location.href = 'login.html';
+            }
+        });
+    // Lógica do botão de deslogar (já existente)
+    document.getElementById('btnSair').addEventListener('click', function() {
+        localStorage.clear(); 
+        sessionStorage.clear(); 
+        window.location.href = 'login.html';
+    });
+
+    // CONEXÃO COM O BACK-END: Enviar dados de cadastro
+    document.querySelector('#cadastrar button').addEventListener('click', async (event) => {
+        event.preventDefault(); // Evita que a página recarregue caso o botão esteja dentro de uma tag <form>
+
+        // O .trim() remove os espaços em branco caso a pessoa digite só espaços
+        const nome = document.getElementById('inome').value.trim();
+        const email = document.getElementById('iemail').value.trim();
+        const numero = document.getElementById('inumero').value.trim();
+
+        // 🛑 VALIDAÇÃO: Verifica se algum dos campos está vazio
+        if (!nome || !email || !numero) {
+            alert('Por favor, preencha todos os campos antes de cadastrar!');
+            return; // O 'return' faz o código parar aqui, impedindo que chegue no fetch
+        }
+
+        // Se passou pela validação, envia os dados para a rota do Node.js
+        const resposta = await fetch('api/jovens', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nome, email, numero })
+        });
+
+        const dados = await resposta.json();
+        if (resposta.ok) {
+            alert('Cadastrado com sucesso!');
+            
+            // Opcional: Limpar os campos após o cadastro dar certo
+            document.getElementById('inome').value = '';
+            document.getElementById('iemail').value = '';
+            document.getElementById('inumero').value = '';
+        } else {
+            alert(dados.erro || 'Erro ao cadastrar.');
+        }
+    s// ==========================================
+    // MÁSCARA DO TELEFONE
+    // ==========================================
+    const campoNumero = document.getElementById('inumero');
+
+    campoNumero.addEventListener('input', function (e) {
+        // Remove qualquer caractere que não seja número (letras, símbolos, etc)
+        let valor = e.target.value.replace(/\D/g, '');
+        
+        // Usa Regex para separar os números em blocos lógicos:
+        // x[1] = DDD (até 2 números)
+        // x[2] = Primeira parte do número (até 5 números)
+        // x[3] = Segunda parte do número (até 4 números)
+        let x = valor.match(/(\d{0,2})(\d{0,5})(\d{0,4})/);
+        
+        // Remonta o valor com os parênteses e hífen conforme os blocos vão sendo preenchidos
+        if (!x[2]) {
+            e.target.value = x[1];
+        } else {
+            e.target.value = '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+        }
+    });
+    });
+</script>
+</body>
+</html>

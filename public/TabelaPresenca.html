@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabela de Frequência - Sistema RUAH</title>
+    <link rel="stylesheet" href="estilos/home.css">
+    <link rel="stylesheet" href="estilos/tabela.css">
+</head>
+<body>
+
+    <div id="menu">
+        <div id="perfil">
+             <svg class="user-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 6C13.93 6 15.5 7.57 15.5 9.5C15.5 11.43 13.93 13 12 13C10.07 13 8.5 11.43 8.5 9.5C8.5 7.57 10.07 6 12 6ZM12 20C9.97 20 7.57 19.18 5.86 17.12C7.55 15.8 9.68 15 12 15C14.32 15 16.45 15.8 18.14 17.12C16.43 19.18 14.03 20 12 20Z" />
+                </svg>
+                <span>Usuario</span>
+        </div>
+        <div id="botoes">
+           <a href="home.html">home</a>
+            <a href="listagem.html">Lista dos jovens</a>
+            <a href="cadastro.html">Cadastrar</a>
+           
+        </div>
+        <div class="dropdown">
+                <span class="text-button dropbtn">MENU ▼</span>
+                <div class="dropdown-content">
+                    <a href="home.html">home</a>
+            <a href="listagem.html">Lista dos jovens</a>
+            <a href="cadastro.html">Cadastrar</a>
+            <a href="CadastroEdicaojovens.html">Editar jovens</a>
+            <a href="RelatorioPresenca.html">Relatorio de presença</a> 
+            <a href="TabelaPresenca.html">Tabela de presença</a>
+             <a href="Configuracoes.html">Configurações</a>
+                </div>
+            </div>
+        <div id="sair">
+            <button id="btnSair">deslogar</button>
+        </div>
+    </div>
+
+    <main class="main-content">
+        
+        <div class="card card-large">
+            <h1>Tabela de presença</h1>
+            
+            <div class="select-group">
+                <label>Evento</label>
+                <div class="select-wrapper">
+                    <select class="form-control" id="selectEvento">
+                        <option value="">Selecione um evento...</option>
+                        </select>
+                </div>
+            </div>
+
+            <div class="table-area">
+                <div class="filter-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+                        <path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/>
+                    </svg>
+                </div>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>Telefone</th>
+                            <th>Setor</th>
+                            <th>Presente</th>
+                            <th>Ausente</th>
+                        </tr>
+                    </thead>
+                    <tbody id="corpoTabela">
+                        </tbody>
+                </table>
+            </div>
+
+            <button class="primary-button" id="btnSalvarChamada" style="margin-top: 30px;">Salvar Presenças</button>
+
+        </div>
+    </main>
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        const usuarioSalvo = localStorage.getItem('usuarioLogado');
+
+        if (usuarioSalvo) {
+            const usuario = JSON.parse(usuarioSalvo);
+            document.querySelector('#perfil span').textContent = usuario.nome;
+        } else {
+            window.location.href = 'login.html';
+            return;
+        }
+
+        // Executa as duas funções ao carregar a página
+        carregarEventos();
+        carregarJovensParaTabela();
+    });
+
+    // 1. Busca os Eventos do banco de dados e preenche o <select>
+    async function carregarEventos() {
+        try {
+            const resposta = await fetch('/api/eventos');
+            const eventos = await resposta.json();
+            const selectEvento = document.getElementById('selectEvento');
+
+            if (resposta.ok) {
+                eventos.forEach(evento => {
+                    const option = document.createElement('option');
+                    option.value = evento.id;
+                    option.textContent = evento.titulo;
+                    selectEvento.appendChild(option);
+                });
+            }
+        } catch (erro) {
+            console.error('Erro ao carregar eventos:', erro);
+        }
+    }
+
+    // 2. Busca os Jovens e cria as linhas da tabela dinamicamente
+    async function carregarJovensParaTabela() {
+        const corpoTabela = document.getElementById('corpoTabela');
+        
+        try {
+            // Usa a rota nova do seu server.js
+            const resposta = await fetch('/api/jovens');
+            const jovens = await resposta.json();
+
+            corpoTabela.innerHTML = ''; // Limpa o carregando...
+
+            if (!resposta.ok || jovens.length === 0) {
+                corpoTabela.innerHTML = '<tr><td colspan="6">Nenhum jovem encontrado.</td></tr>';
+                return;
+            }
+
+            jovens.forEach(jovem => {
+                const tr = document.createElement('tr');
+                
+                // Cria a linha (o atributo data-id guarda o ID do jovem escondido na linha)
+                tr.innerHTML = `
+                    <td>${jovem.nome}</td>
+                    <td>${jovem.email}</td>
+                    <td>${jovem.telefone || '-'}</td>
+                    <td>${jovem.setor_nome || 'Sem setor'}</td>
+                    <td class="col-checkbox">
+                        <input type="radio" name="presenca_${jovem.id}" value="Presente" data-membro-id="${jovem.id}">
+                    </td>
+                    <td class="col-checkbox">
+                        <input type="radio" name="presenca_${jovem.id}" value="Ausente" data-membro-id="${jovem.id}">
+                    </td>
+                `;
+                corpoTabela.appendChild(tr);
+            });
+
+        } catch (erro) {
+            console.error('Erro ao buscar jovens:', erro);
+            corpoTabela.innerHTML = '<tr><td colspan="6">Erro de conexão com o servidor.</td></tr>';
+        }
+    }
+
+    // 3. Lógica para salvar a chamada quando clicar no botão
+    document.getElementById('btnSalvarChamada').addEventListener('click', async () => {
+        const evento_id = document.getElementById('selectEvento').value;
+        
+        if (!evento_id) {
+            alert('Por favor, selecione um evento primeiro!');
+            return;
+        }
+
+        // Pega todos os radio buttons que foram marcados
+        const radiosMarcados = document.querySelectorAll('input[type="radio"]:checked');
+        const listaPresenca = [];
+
+        radiosMarcados.forEach(radio => {
+            listaPresenca.push({
+                membro_id: radio.getAttribute('data-membro-id'),
+                status: radio.value // "Presente" ou "Ausente"
+            });
+        });
+
+        if (listaPresenca.length === 0) {
+            alert('Você não marcou a presença/ausência de ninguém.');
+            return;
+        }
+
+        // Envia para o backend (Rota 3 do seu server.js)
+        try {
+            const resposta = await fetch('/api/chamada', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ evento_id, listaPresenca })
+            });
+
+            const dados = await resposta.json();
+
+            if (resposta.ok) {
+                alert('Chamada salva com sucesso!');
+                // Desmarca os botões para a próxima
+                document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+                document.getElementById('selectEvento').value = '';
+            } else {
+                alert(dados.error || 'Erro ao salvar chamada.');
+            }
+        } catch (erro) {
+            console.error('Erro ao salvar chamada:', erro);
+            alert('Erro de conexão com o servidor.');
+        }
+    });
+
+    // Lógica de deslogar
+    document.getElementById('btnSair').addEventListener('click', function() {
+        localStorage.clear(); 
+        sessionStorage.clear(); 
+        window.location.href = 'login.html';
+    });
+
+</script>
+</body>
+</html>

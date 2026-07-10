@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Sistema RUAH</title>
+    <link rel="stylesheet" href="estilos/home.css">
+    <script src="https://kit.fontawesome.com/7308a57cc9.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div id="menu">
+        <div id="perfil">
+             <svg class="user-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 6C13.93 6 15.5 7.57 15.5 9.5C15.5 11.43 13.93 13 12 13C10.07 13 8.5 11.43 8.5 9.5C8.5 7.57 10.07 6 12 6ZM12 20C9.97 20 7.57 19.18 5.86 17.12C7.55 15.8 9.68 15 12 15C14.32 15 16.45 15.8 18.14 17.12C16.43 19.18 14.03 20 12 20Z" />
+                </svg>
+                <span>Usuario</span>
+        </div>
+        <div id="botoes">
+                   <a href="home.html">home</a>
+            <a href="listagem.html">Lista dos jovens</a>
+            <a href="cadastro.html">Cadastrar</a>
+           
+        </div>
+        <div class="dropdown">
+                <span class="text-button dropbtn">MENU ▼</span>
+                <div class="dropdown-content">
+                  <a href="home.html">home</a>
+            <a href="listagem.html">Lista dos jovens</a>
+            <a href="cadastro.html">Cadastrar</a>
+            <a href="CadastroEdicaojovens.html">Editar jovens</a>
+            <a href="RelatorioPresenca.html">Relatorio de presença</a> 
+            <a href="TabelaPresenca.html">Tabela de presença</a>
+             <a href="Configuracoes.html">Configurações</a>
+                </div>
+            </div>
+        <div id="sair">
+            <button id="btnSair">deslogar</button>
+        </div>
+    </div>
+    <div id="titulo">
+        <h1>Lista dos jovens</h1>
+    </div>
+    <div id="conteudo">
+        <div id="img">
+            <img src="imagens/Gemini_Generated_Image_m161cqm161cqm161.png" alt="foto">
+        </div>
+            <div id="listaJovens">
+                <ul id="lista">
+                    <li>futura lista</li>
+                </ul>
+            </div>
+    </div>
+<script>
+    // Quando a página carregar, executa essa função
+        window.addEventListener('DOMContentLoaded', () => {
+            // 1. Pega os dados que foram salvos no login
+            const usuarioSalvo = localStorage.getItem('usuarioLogado');
+
+            // 2. Verifica se existe alguém logado
+            if (usuarioSalvo) {
+                // Converte o texto salvo de volta para um objeto JavaScript
+                const usuario = JSON.parse(usuarioSalvo);
+
+                // 3. Troca o texto do span pelo nome do usuário
+                // ATENÇÃO: Confirme se a propriedade se chama 'nome' no seu banco de dados
+                document.querySelector('#perfil span').textContent = usuario.nome;
+            } else {
+                // Se não tiver dados (usuário tentou entrar direto pela URL sem logar)
+                // Redireciona ele de volta para o login por segurança
+                window.location.href = 'login.html';
+            }
+        });
+
+        // Lógica do botão de deslogar (mantida)
+        document.getElementById('btnSair').addEventListener('click', function() {
+            localStorage.clear(); 
+            sessionStorage.clear(); 
+            window.location.href = 'login.html';
+        });
+
+       const apiURL = 'http://localhost:3000/api/jovens';
+
+// 1. Função Principal: Buscar dados e renderizar a lista
+async function carregarJovens() {
+    try {
+        const response = await fetch(apiURL);
+        const jovens = await response.json();
+        
+        const lista = document.getElementById('lista');
+        lista.innerHTML = ''; // Limpa a lista antes de renderizar
+
+        // Se o banco estiver vazio
+        if (jovens.length === 0) {
+            lista.innerHTML = '<li style="text-align: center; color: var(--cor-texto-secundario);">Nenhum jovem cadastrado ainda.</li>';
+            return;
+        }
+
+        // Para cada jovem, cria um card estilizado
+        jovens.forEach(jovem => {
+            const li = document.createElement('li');
+            li.className = 'jovem-card'; // Aplica a classe CSS do card
+            
+            li.innerHTML = `
+                <div class="jovem-info">
+                    <span class="jovem-nome">${jovem.nome}</span>
+                    <div class="jovem-detalhes">
+                        <span><i class="fa-solid fa-envelope"></i> ${jovem.email}</span>
+                        <span><i class="fa-solid fa-phone"></i> ${jovem.telefone}</span>
+                    </div>
+                </div>
+                <div class="jovem-acoes">
+                    <button class="btn-acao btn-editar" title="Editar" 
+                            onclick="editarJovem(${jovem.id}, '${jovem.nome}', '${jovem.email}', '${jovem.telefone}')">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </button>
+                    <button class="btn-acao btn-deletar" title="Excluir" 
+                            onclick="deletarJovem(${jovem.id})">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </div>
+            `;
+            lista.appendChild(li);
+        });
+    } catch (error) {
+        console.error('Erro ao carregar lista:', error);
+    }
+}
+
+// 2. Função para Excluir
+async function deletarJovem(id) {
+    // Pergunta de confirmação nativa do navegador
+    const confirmacao = confirm('Tem certeza que deseja excluir este jovem?');
+    
+    if (confirmacao) {
+        await fetch(`${apiURL}/${id}`, {
+            method: 'DELETE'
+        });
+        
+        alert('Jovem excluído com sucesso!');
+        carregarJovens(); // Atualiza a lista na tela sem precisar recarregar a página
+    }
+}
+
+// 3. Função para Editar (usando Prompts para simplificar a interface)
+async function editarJovem(id, nomeAtual, emailAtual, numeroAtual) {
+    // Pede os novos dados (se o usuário cancelar ou deixar em branco, mantém o atual)
+    const novoNome = prompt('Editar Nome:', nomeAtual) || nomeAtual;
+    const novoEmail = prompt('Editar Email:', emailAtual) || emailAtual;
+    const novoNumero = prompt('Editar Número:', numeroAtual) || numeroAtual;
+
+    // Se houve alguma alteração real, envia para o Back-end
+    if (novoNome !== nomeAtual || novoEmail !== emailAtual || novoNumero !== numeroAtual) {
+        
+        const dadosAtualizados = {
+            nome: novoNome,
+            email: novoEmail,
+            numero: novoNumero
+        };
+
+        await fetch(`${apiURL}/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(dadosAtualizados)
+        });
+
+        alert('Dados atualizados com sucesso!');
+        carregarJovens(); // Recarrega os cards
+    }
+}
+
+// Executa a função de carregar a lista assim que a página abre
+document.addEventListener('DOMContentLoaded', () => {
+    carregarJovens();
+});
+</script>
+
+    
+</body>
+</html>

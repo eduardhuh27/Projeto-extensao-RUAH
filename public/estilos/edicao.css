@@ -1,0 +1,375 @@
+/*
+   RESET E CONFIGURAÇÕES GERAIS
+ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+:root {
+    --cor-fundo-tela: #121212;        
+    --cor-fundo-form: #1e1e1e;        
+    --cor-primaria: #f59e0b;          
+    --cor-primaria-hover: #e28e08;    
+    --cor-texto-principal: #ffffff;   
+    --cor-texto-secundario: #b0b0b0;  
+    --cor-borda: #444444;             
+    --cor-icone: #cccccc;             
+    --cor-overlay: rgba(0, 0, 0, 0.5);
+
+
+}
+
+body {
+   /* Gradiente linear do cinza escuro para a cor de fundo padrão */
+    background: radial-gradient(circle at right, rgba(73, 48, 4, 0.425) 0%, var(--cor-fundo-tela) 100%);
+    background-attachment: fixed;
+   
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    box-sizing: border-box;
+    padding: 8rem 1rem 3rem 1rem;
+}
+
+/* BARRA DE NAVEGAÇÃO (HEADER)
+*/
+.navbar {
+    width: 100%;
+    max-width: 1200px;
+    background-color: var(--cor-fundo-form);
+    border: 1px solid var(--cor-borda);
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 8px; /* Mantém a suavidade das bordas como nos outros arquivos */
+}
+/* =========================================
+   BARRA DE NAVEGAÇÃO (Menu Estilo Ilha Flutuante)
+   ========================================= */
+#menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--cor-fundo-form);
+    padding: 1rem 3rem;
+    
+    /* MODIFICAÇÕES PARA O EFEITO DE ILHA */
+    border: 1px solid var(--cor-borda);     /* Borda em toda a volta do menu */
+    border-radius: 8px;                     /* Cantos arredondados para parecer um card */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5); /* Sombra mais marcante para dar profundidade */
+    
+    /* POSICIONAMENTO FIXO CENTRALIZADO COM ESPAÇAMENTO */
+    position: fixed;
+    top: 20px;                              /* Distância do topo da tela */
+    left: 0;
+    right: 0;
+    width: calc(100% - 40px);               /* Ocupa a largura total menos os espaços das laterais */
+    max-width: 1200px;                      /* Não passa de 1200px de largura */
+    margin: 0 auto;                         /* Centraliza o menu na tela horizontalmente */
+    z-index: 1000;                          /* Continua passando por cima do conteúdo */
+}
+
+/* =========================================
+   TÍTULO PRINCIPAL (Ajuste de margem)
+   ========================================= */
+#titulo {
+    text-align: center;
+    /* ALTERAÇÃO: Removemos os 9.5rem. Agora o título usa apenas o 
+       espaço necessário para respirar em relação ao menu e ao grid */
+    margin: 3.5rem 0 1rem 0;
+}
+
+#perfil {
+    display: flex;
+    align-items: center;
+    color: var(--cor-texto-principal);
+    gap: 0.5rem;
+}
+
+.user-icon {
+    width: 28px;
+    height: 28px;
+    color: var(--cor-texto-principal);
+}   
+
+#botoes {
+    display: flex;
+    gap: 1.5rem;
+}
+
+#botoes a {
+    color: var(--cor-texto-secundario);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1rem;
+    text-transform: uppercase;
+    transition: color 0.3s;
+}
+
+#botoes a:hover {
+    color: var(--cor-primaria);
+}
+
+/* Botão Deslogar */
+#sair button {
+    background-color: var(--cor-primaria);
+    color: var(--cor-texto-principal);
+    border: none;
+    border-radius: 4px;
+    padding: 0.6rem 1.5rem;
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+#sair button:hover {
+    background-color: var(--cor-primaria-hover);
+}
+
+
+#titulo h1 {
+    font-size: 2.2rem; /* Ajustado sutilmente para harmonizar o espaço */
+    color: var(--cor-texto-principal);
+    font-weight: 700;
+    margin-bottom: 1
+    
+    .5rem; /* Reduzido para aproximar o título do conteúdo */
+}
+
+/* O contêiner precisa ser relativo para ancorar o menu absoluto */
+.dropdown {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* Estilo do texto "MENU ▼" (Semelhante aos links principais) */
+.dropbtn {
+    color: var(--cor-texto-secundario);
+    font-weight: bold;
+    font-size: 1rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+/* Muda a cor do título do menu quando passamos o mouse no contêiner inteiro */
+.dropdown:hover .dropbtn {
+    color: var(--cor-primaria);
+}
+
+/* A caixa que guarda as opções */
+.dropdown-content {
+    display: none; /* Escondido por padrão */
+    position: absolute;
+    top: 100%; 
+    left: 50%;
+    transform: translateX(-50%); /* Centraliza exatamente abaixo do "MENU" */
+    background-color: var(--cor-fundo-form);
+    min-width: 180px; /* Largura mínima para caber os textos */
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7); /* Sombra um pouco mais forte */
+    z-index: 1001; 
+    margin-top: 1rem; /* Dá um respiro entre o botão e a caixa */
+    padding: 0.5rem 0;
+    
+    /* Prepara para um efeito suave ao aparecer */
+    opacity: 0;
+    animation: fadeInDropdown 0.3s forwards;
+}
+
+/* "Ponte invisível": 
+   Como adicionamos margin-top, o mouse pode perder o hover 
+   no espaço vazio. Esse pseudo-elemento cobre o buraco.
+*/
+.dropdown-content::before {
+    content: '';
+    position: absolute;
+    top: -1rem;
+    left: 0;
+    width: 100%;
+    height: 1rem;
+}
+
+/* Sobrescrevendo o estilo '#botoes a' para as opções do dropdown */
+ .dropdown-content a {
+    color: var(--cor-texto-principal);
+    padding: 12px 20px;
+    text-decoration: none;
+    display: block; /* Ocupa a linha toda */
+    font-size: 0.9rem; /* Levemente menor que o menu principal */
+    font-weight: normal; /* Tira o negrito */
+    text-transform: none; /* Tira o tudo maiúsculo */
+    transition: background-color 0.2s, color 0.2s;
+}
+
+/* Efeito ao passar o mouse nas opções internas */
+.dropdown-content a:hover {
+    background-color: rgba(245, 158, 11, 0.1); /* Fundo laranja bem translúcido */
+    color: var(--cor-primaria);
+}
+
+/* Faz a caixa aparecer quando passamos o mouse no .dropdown */
+.dropdown:hover .dropdown-content {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Animação suave para o menu não aparecer "seco" */
+@keyframes fadeInDropdown {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -10px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+/*
+   BOTÕES PRINCIPAIS 
+*/
+.primary-button {
+    background-color: var(--cor-primaria);
+    color: #080808;
+    border: none;
+    border-radius: 20px; /* Arredondamento do botão igual ao do styleConfig.css */
+    padding: 12px 30px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: background-color 0.3s;
+}
+
+.primary-button:hover {
+    background-color: var(--cor-primaria-hover);
+}
+
+/* CONTEÚDO PRINCIPAL E CARTÕES
+*/
+.main-content {
+    display: flex;
+    gap: 60px;
+    width: 100%;
+    max-width: 1000px;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.card {
+    background-color: var(--cor-fundo-form);
+    border-radius: 8px; 
+    padding: 3rem; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card-left {
+    width: 400px;
+    min-height: 350px;
+}
+
+.card-right {
+    width: 450px;
+    min-height: 350px;
+}
+
+.card h2 {
+    margin-bottom: 2rem;
+    color: var(--cor-texto-principal);
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+/*
+   INPUTS E FORMULÁRIOS (Padrão Horizontal)
+*/
+.form-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 1.5rem;
+    width: 100%;
+}
+
+.form-group label {
+    font-size: 12px;
+    color: var(--cor-texto-secundario);
+    font-weight: bold;
+    min-width: 60px; /* Dá espaço suficiente para a palavra "Telefone" */
+    text-align: left;
+}
+
+.form-group input {
+    flex: 1;
+    padding: 10px 15px;
+    color: var(--cor-texto-principal);
+    border: 1px solid var(--cor-borda);
+    background-color: var(--cor-fundo-tela);
+    border-radius: 20px; /* Bordas arredondadas do input seguindo o styleConfig */
+    font-size: 14px;
+    outline: none;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+    border-color: var(--cor-primaria);
+}
+
+.card .primary-button {
+    margin-top: auto; /* Empurra o botão para o final do card */
+    width: 60%;
+    padding: 12px;
+}
+
+/* RESPONSIVIDADE (Telas de Celular/Tablet)
+*/
+@media (max-width: 850px) {
+    body {
+        padding: 20px;
+    }
+
+    .main-content {
+        flex-direction: column;
+        align-items: center;
+        gap: 40px;
+    }
+
+    .card-left, .card-right {
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .navbar {
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .nav-left {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .nav-links {
+        gap: 20px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}

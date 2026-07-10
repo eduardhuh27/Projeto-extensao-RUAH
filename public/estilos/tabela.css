@@ -1,0 +1,247 @@
+/*
+   RESET E CONFIGURAÇÕES GERAIS
+  */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+:root {
+    --cor-fundo-tela: #121212;        
+    --cor-fundo-form: #1e1e1e;        
+    --cor-primaria: #f59e0b;         
+    --cor-primaria-hover: #e28e08;    
+    --cor-texto-principal: #ffffff; 
+    --cor-texto-secundario: #b0b0b0; 
+    --cor-borda: #444444;            
+    --cor-icone: #cccccc;            
+    --cor-overlay: rgba(0, 0, 0, 0.5); 
+}
+
+body {
+   /* Gradiente linear do cinza escuro para a cor de fundo padrão */
+    background: radial-gradient(circle at right, rgba(73, 48, 4, 0.425) 0%, var(--cor-fundo-tela) 100%);
+    background-attachment: fixed;
+   
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+    padding: 40px;
+}
+
+
+
+
+/* 
+   BOTÕES PRINCIPAIS
+ */
+.primary-button {
+    background-color: var(--cor-primaria);
+    color: #080808;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 30px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: background-color 0.3s;
+}
+
+.primary-button:hover {
+    background-color: var(--cor-primaria-hover);
+}
+
+/*
+   CONTEÚDO PRINCIPAL E CARTÃO
+*/
+.main-content {
+    display: flex;
+    width: 100%;
+    max-width: 900px;
+    justify-content: center;
+}
+
+.card {
+    background-color: var(--cor-fundo-form);
+    border-radius: 8px;
+    padding: 40px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.card h1 {
+    margin-bottom: 25px;
+    color: var(--cor-texto-principal);
+    font-size: 1.8rem;
+    text-align: center;
+}
+
+/* 
+   INPUT SELECT CENTRAL
+*/
+.select-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 40px;
+    width: 100%;
+    max-width: 350px;
+}
+
+.select-group label {
+    font-size: 12px;
+    color: var(--cor-texto-secundario);
+    font-weight: bold;
+}
+
+.select-wrapper {
+    width: 100%;
+    position: relative;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px 15px;
+    background-color: var(--cor-fundo-tela);
+    border: 1px solid var(--cor-borda);
+    color: var(--cor-texto-principal);
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: border-color 0.3s;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+}
+
+.form-control:focus {
+    border-color: var(--cor-primaria);
+}
+
+.select-wrapper::after {
+    content: "▼";
+    font-size: 10px;
+    color: var(--cor-icone);
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+
+
+body {
+   /* Gradiente linear do cinza escuro para a cor de fundo padrão */
+    background: radial-gradient(circle at right, rgba(73, 48, 4, 0.425) 0%, var(--cor-fundo-tela) 100%);
+    background-attachment: fixed;
+   
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    box-sizing: border-box;
+    padding: 8rem 1rem 3rem 1rem;
+}
+/* =========================================
+   ESTILIZAÇÃO ESPECÍFICA PARA TABELA DE FREQUÊNCIA
+   Baseado no padrão unificado
+   ========================================= */
+
+/* Estilo para o container da tabela */
+.card-large {
+    background-color: var(--cor-fundo-form);
+    border-radius: 8px;
+    padding: 2.5rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Área de filtragem e tabela */
+.table-area {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--cor-fundo-tela);
+    border: 1px solid var(--cor-borda);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.data-table th, .data-table td {
+    border: 1px solid var(--cor-borda);
+    padding: 12px;
+    text-align: center;
+    font-size: 14px;
+    color: var(--cor-texto-secundario);
+}
+
+.data-table th {
+    font-weight: bold;
+    color: var(--cor-texto-principal);
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Estilização específica das checkboxes na tabela */
+.col-checkbox {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.col-checkbox input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: var(--cor-primaria); /* Aplica a cor laranja nos checkboxes selecionados */
+}
+
+/* Ajuste do Seletor de Evento */
+.select-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 400px;
+    margin-bottom: 20px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px 15px;
+    background-color: var(--cor-fundo-tela);
+    border: 1px solid var(--cor-borda);
+    color: var(--cor-texto-principal);
+    border-radius: 20px;
+    font-size: 14px;
+    outline: none;
+}
+
+/* Ajuste Responsivo da Tabela */
+@media (max-width: 850px) {
+    .table-area {
+        overflow-x: auto; /* Permite scroll horizontal em telas pequenas */
+    }
+}

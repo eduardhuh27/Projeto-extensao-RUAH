@@ -1,0 +1,305 @@
+/* =========================================
+   RESET E CONFIGURAÇÕES GERAIS
+   ========================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+:root {
+    --cor-fundo-tela: #121212;        
+    --cor-fundo-form: #1e1e1e;        
+    --cor-primaria: #f59e0b;          
+    --cor-primaria-hover: #e28e08;    
+    --cor-texto-principal: #ffffff;   
+    --cor-texto-secundario: #b0b0b0;  
+    --cor-borda: #444444;             
+    --cor-icone: #cccccc;             
+    --cor-overlay: rgba(0, 0, 0, 0.5);
+}
+
+body {
+    /* Gradiente linear do cinza escuro para a cor de fundo padrão */
+    background: radial-gradient(circle at right, rgba(73, 48, 4, 0.425) 0%, var(--cor-fundo-tela) 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+    padding: 40px;
+}
+
+/* =========================================
+   BARRA DE NAVEGAÇÃO (HEADER)
+   ========================================= */
+.navbar {
+    width: 100%;
+    max-width: 1200px;
+    background-color: var(--cor-fundo-form);
+    border: 1px solid var(--cor-borda);
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 8px; 
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-weight: bold;
+    font-size: 14px;
+    color: var(--cor-texto-principal);
+    
+}
+
+.user-icon {
+    width: 40px;
+    height: 40px;
+    color: var(--cor-icone);
+    fill: var(--cor-icone);
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+}
+
+/* Centraliza os links principais */
+.nav-links.central {    
+    justify-content: center;
+}
+
+/* Empurra o Menu Dropdown e o Botão para a ponta direita */
+.nav-links.direita {
+    flex: 1;
+    justify-content: flex-end;
+    gap: 30px; 
+}
+
+/* Estilo padrão de link */
+.nav-links a, .text-button {
+    color: var(--cor-texto-secundario); 
+    text-decoration: none;              
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;          
+    transition: color 0.3s;             
+}
+
+/* Efeito Hover */
+.nav-links a:hover, .text-button:hover {
+    color: var(--cor-primaria);
+}
+
+/* =========================================
+   MENU DROPDOWN (SUSPENSO)
+   ========================================= */
+.dropdown {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.dropbtn {
+    color: var(--cor-texto-secundario);
+    font-weight: bold;
+    font-size: 1rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.dropdown:hover .dropbtn {
+    color: var(--cor-primaria);
+}
+
+.dropdown-content {
+    display: none; 
+    position: absolute;
+    top: 100%; 
+    left: 50%;
+    transform: translateX(-50%); 
+    background-color: var(--cor-fundo-form);
+    min-width: 180px; 
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7); 
+    z-index: 1001; 
+    margin-top: 1rem; 
+    padding: 0.5rem 0;
+    
+    opacity: 0;
+    animation: fadeInDropdown 0.3s forwards;
+}
+
+/* Ponte invisível que impede o menu de sumir */
+.dropdown-content::before {
+    content: '';
+    position: absolute;
+    top: -1rem;
+    left: 0;
+    width: 100%;
+    height: 1rem;
+}
+
+.dropdown-content a {
+    color: var(--cor-texto-principal);
+    padding: 12px 20px;
+    text-decoration: none;
+    display: block; 
+    font-size: 0.9rem; 
+    font-weight: normal; 
+    text-transform: none; 
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.dropdown-content a:hover {
+    background-color: rgba(245, 158, 11, 0.1); 
+    color: var(--cor-primaria);
+}
+
+.dropdown:hover .dropdown-content {
+    display: flex;
+    flex-direction: column;
+}
+
+@keyframes fadeInDropdown {
+    from { opacity: 0; transform: translate(-50%, -10px); }
+    to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+/* =========================================
+   BOTÕES PRINCIPAIS
+   ========================================= */
+.primary-button {
+    background-color: var(--cor-primaria);
+    color: #080808;
+    border: none;
+    border-radius: 20px; 
+    padding: 12px 30px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: background-color 0.3s;
+}
+
+.primary-button:hover {
+    background-color: var(--cor-primaria-hover);
+}
+
+/* =========================================
+   CONTEÚDO PRINCIPAL E CARTÃO
+   ========================================= */
+.main-content {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.card {
+    background-color: var(--cor-fundo-form);
+    border-radius: 8px;
+    padding: 50px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 650px; /* Um pouco mais largo para a tabela ficar confortável */
+    min-height: 400px;
+}
+
+.card h1 {
+    margin-bottom: 40px;
+    color: var(--cor-texto-principal);
+    font-size: 1.8rem;
+    text-align: center;
+}
+
+/* =========================================
+   TABELA SIMPLES (RELATÓRIO)
+   ========================================= */
+.simple-table {
+    width: 100%;
+    max-width: 500px; /* Centraliza e limita o tamanho da tabela */
+    border-collapse: collapse;
+    background-color: var(--cor-fundo-tela);
+    border-radius: 8px;
+    overflow: hidden; /* Mantém as bordas arredondadas com o fundo */
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.simple-table td {
+    border-bottom: 1px solid var(--cor-borda); /* Borda apenas na parte inferior */
+    padding: 12px 20px;
+    text-align: left;
+    font-size: 14px;
+    color: var(--cor-texto-secundario);
+    height: 45px; 
+    transition: background-color 0.3s;
+}
+
+/* Efeito de hover nas linhas da tabela */
+.simple-table tr:hover td {
+    background-color: rgba(255, 255, 255, 0.03);
+    color: var(--cor-texto-principal);
+}
+
+/* Remove a borda da última linha */
+.simple-table tr:last-child td {
+    border-bottom: none;
+}
+
+.simple-table .col-narrow {
+    width: 80px;
+    text-align: center;
+}
+
+/* =========================================
+   RESPONSIVIDADE
+   ========================================= */
+@media (max-width: 850px) {
+    body {
+        padding: 20px;
+    }
+    
+    .navbar {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+     #menu {
+        padding: 1rem 1.5rem;
+    }
+    
+    #botoes {
+        gap: 1.2rem;
+    }
+    
+    #botoes a {
+        font-size: 0.85rem;
+    }
+
+    #sair button {
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+    }
+
+    #titulo {
+        margin-top: 6.5rem; /* Ajusta a margem do título em telas menores */
+    }
+}
